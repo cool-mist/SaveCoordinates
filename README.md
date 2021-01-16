@@ -1,9 +1,7 @@
-# Fabric Example Mod
+# Save Coordinates Fabric MC 1.16.4+
 
-## Setup
+## Usage
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+`/sc "My House"`
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+`/sc Portal`
