@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Save Coordinates",
-  "description": "Fabric mod to easily save the current coordinates and share",
+  "description": "Fabric mod to store the current coordinates",
   "authors": [
     "cool-mist"
   ],
@@ -18,8 +18,8 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "me.bionicbeanie.mods.SaveCoordinates"
+    "client": [
+      "me.bionicbeanie.mods.SaveCoordinatesClient"
     ]
   },
   "mixins": [
