@@ -1,4 +1,4 @@
-package me.bionicbeanie.mods.core;
+package me.bionicbeanie.mods.api;
 
 import me.bionicbeanie.mods.model.PlayerPosition;
 

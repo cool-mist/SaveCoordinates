@@ -11,7 +11,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import me.bionicbeanie.mods.core.IFileStore;
+import me.bionicbeanie.mods.api.IFileStore;
 import me.bionicbeanie.mods.model.PlayerPosition;
 
 public class FileStore implements IFileStore {
@@ -41,23 +41,30 @@ public class FileStore implements IFileStore {
         // TODO Auto-generated method stub
 
     }
-
+    
     @Override
-    public void save(PlayerPosition position) throws IOException {
+    public List<PlayerPosition> list() throws IOException {
         List<String> lines = Files.readAllLines(saveFilePath);
-        PlayerPosition[] players = gson.fromJson(String.join("", lines), PlayerPosition[].class);
+        PlayerPosition[] positions = gson.fromJson(String.join("", lines), PlayerPosition[].class);
         
-        List<PlayerPosition> playersList = new LinkedList<>();
+        List<PlayerPosition> playerPositionList = new LinkedList<>();
         
-        if(players != null) {
-            for(int i = 0; i < players.length; ++i) {
-                playersList.add(players[i]);
+        if(positions != null) {
+            for(int i = 0; i < positions.length; ++i) {
+                playerPositionList.add(positions[i]);
             }
         }
         
-        playersList.add(position);
+        return playerPositionList;
+    }
+
+    @Override
+    public void save(PlayerPosition position) throws IOException {
         
-        String serialized = gson.toJson(playersList.toArray());
+        List<PlayerPosition> playerPositions = list();
+        playerPositions.add(position);
+        
+        String serialized = gson.toJson(playerPositions.toArray());
         Files.writeString(saveFilePath, serialized, StandardOpenOption.WRITE);
     }
 
