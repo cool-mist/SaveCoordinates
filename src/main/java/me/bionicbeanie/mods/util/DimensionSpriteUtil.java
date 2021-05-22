@@ -5,7 +5,7 @@ import io.github.cottonmc.cotton.gui.widget.WWidget;
 import net.minecraft.util.Identifier;
 
 public class DimensionSpriteUtil {
-    
+
     public static WWidget CreateWorldIcon(String dimension) {
         return new WSprite(CreateWorldIconIdentifier(dimension));
     }

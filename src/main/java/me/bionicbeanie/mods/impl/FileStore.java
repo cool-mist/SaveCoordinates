@@ -30,8 +30,8 @@ public class FileStore implements IFileStore {
         try {
             Files.createDirectories(Paths.get(baseDir, DEFAULT_DIR));
             Files.createFile(this.saveFilePath);
-        }catch(FileAlreadyExistsException e) {
-            //ignore
+        } catch (FileAlreadyExistsException e) {
+            // ignore
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,29 +42,29 @@ public class FileStore implements IFileStore {
         // TODO Auto-generated method stub
 
     }
-    
+
     @Override
     public List<PlayerPosition> list() throws IOException {
         List<String> lines = Files.readAllLines(saveFilePath);
         PlayerPosition[] positions = gson.fromJson(String.join("", lines), PlayerPosition[].class);
-        
+
         List<PlayerPosition> playerPositionList = new LinkedList<>();
-        
-        if(positions != null) {
-            for(int i = 0; i < positions.length; ++i) {
+
+        if (positions != null) {
+            for (int i = 0; i < positions.length; ++i) {
                 playerPositionList.add(positions[i]);
             }
         }
-        
+
         return playerPositionList;
     }
 
     @Override
     public void save(PlayerPosition position) throws IOException {
-        
+
         List<PlayerPosition> playerPositions = list();
         playerPositions.add(position);
-        
+
         String serialized = gson.toJson(playerPositions.toArray());
         Files.write(saveFilePath, serialized.getBytes(), StandardOpenOption.WRITE);
     }

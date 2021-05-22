@@ -1,11 +1,11 @@
 package me.bionicbeanie.mods.impl;
 
-import me.bionicbeanie.mods.api.IPositionCalculator;
+import me.bionicbeanie.mods.api.IPlayerLocator;
 import me.bionicbeanie.mods.model.PlayerRawPosition;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Vec3d;
 
-public class PositionCalculator implements IPositionCalculator {
+public class PlayerLocator implements IPlayerLocator {
 
     public PlayerRawPosition locate(MinecraftClient client) {
         Vec3d pos = client.player.getPos();
