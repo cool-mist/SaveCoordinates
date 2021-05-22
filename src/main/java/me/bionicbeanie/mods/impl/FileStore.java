@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +25,10 @@ public class FileStore implements IFileStore {
 
     public FileStore(String baseDir) {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.saveFilePath = Path.of(baseDir, DEFAULT_DIR, DEFAULT_FILE);
+        this.saveFilePath = Paths.get(baseDir, DEFAULT_DIR, DEFAULT_FILE);
         
         try {
-            Files.createDirectories(Path.of(baseDir, DEFAULT_DIR));
+            Files.createDirectories(Paths.get(baseDir, DEFAULT_DIR));
             Files.createFile(this.saveFilePath);
         }catch(FileAlreadyExistsException e) {
             //ignore
@@ -65,7 +66,7 @@ public class FileStore implements IFileStore {
         playerPositions.add(position);
         
         String serialized = gson.toJson(playerPositions.toArray());
-        Files.writeString(saveFilePath, serialized, StandardOpenOption.WRITE);
+        Files.write(saveFilePath, serialized.getBytes(), StandardOpenOption.WRITE);
     }
 
 }
