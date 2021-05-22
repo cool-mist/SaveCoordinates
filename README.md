@@ -2,6 +2,8 @@
 
 ## Usage
 
+Requires Fabric API > 0.34
+
 - Press `B` for menu.
 - Select `save` to save the coordinate.
 - Select `list` to view saved coordinates
