@@ -4,13 +4,13 @@ import org.lwjgl.glfw.GLFW;
 
 import me.bionicbeanie.mods.api.IFileStore;
 import me.bionicbeanie.mods.api.IGui;
-import me.bionicbeanie.mods.api.IGuiHandler;
+import me.bionicbeanie.mods.api.IViewHandler;
 import me.bionicbeanie.mods.api.IPlayerLocator;
 import me.bionicbeanie.mods.api.IScreenController;
-import me.bionicbeanie.mods.gui.ListGuiHandler;
 import me.bionicbeanie.mods.gui.SaveCoordinatesGui;
-import me.bionicbeanie.mods.gui.SaveGuiHandler;
 import me.bionicbeanie.mods.gui.ScreenController;
+import me.bionicbeanie.mods.gui.view.DefaultViewHandler;
+import me.bionicbeanie.mods.gui.view.ListViewHandler;
 import me.bionicbeanie.mods.impl.FileStore;
 import me.bionicbeanie.mods.impl.PlayerLocator;
 import net.fabricmc.api.ClientModInitializer;
@@ -50,8 +50,8 @@ public class SaveCoordinatesClient implements ClientModInitializer {
     private IGui CreateModGui(MinecraftClient client) {
         IGui gui = new SaveCoordinatesGui();
         IFileStore fileStore = new FileStore(client.runDirectory.getAbsolutePath());
-        IGuiHandler saveHandler = new SaveGuiHandler(fileStore, locator, client, gui);
-        IGuiHandler listHandler = new ListGuiHandler(fileStore, gui, client);
+        IViewHandler saveHandler = new DefaultViewHandler(fileStore, locator, client, gui);
+        IViewHandler listHandler = new ListViewHandler(fileStore, gui, client);
         IScreenController screenController = new ScreenController(client);
 
         gui.init(saveHandler, listHandler, screenController);

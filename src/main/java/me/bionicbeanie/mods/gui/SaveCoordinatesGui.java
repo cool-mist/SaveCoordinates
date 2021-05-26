@@ -2,19 +2,19 @@ package me.bionicbeanie.mods.gui;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import me.bionicbeanie.mods.api.IGui;
-import me.bionicbeanie.mods.api.IGuiHandler;
+import me.bionicbeanie.mods.api.IViewHandler;
 import me.bionicbeanie.mods.api.IRootGridPanel;
 import me.bionicbeanie.mods.api.IScreenController;
 
 public class SaveCoordinatesGui extends LightweightGuiDescription implements IGui {
 
     private IRootGridPanel rootGridPanel;
-    private IGuiHandler saveHandler;
-    private IGuiHandler listHandler;
+    private IViewHandler saveHandler;
+    private IViewHandler listHandler;
     private IScreenController screenController;
 
     @Override
-    public void init(IGuiHandler saveHandler, IGuiHandler listHandler, IScreenController screenController) {
+    public void init(IViewHandler saveHandler, IViewHandler listHandler, IScreenController screenController) {
         this.rootGridPanel = createRootPanel();
         this.saveHandler = saveHandler;
         this.listHandler = listHandler;
@@ -50,7 +50,7 @@ public class SaveCoordinatesGui extends LightweightGuiDescription implements IGu
         return panel;
     }
 
-    private void showView(IGuiHandler handler) {
+    private void showView(IViewHandler handler) {
         rootGridPanel.reset();
         handler.placeWidgets(rootGridPanel);
         rootGridPanel.validate(this);

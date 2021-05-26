@@ -1,19 +1,19 @@
-package me.bionicbeanie.mods.gui;
+package me.bionicbeanie.mods.gui.view;
 
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import me.bionicbeanie.mods.api.IFileStore;
 import me.bionicbeanie.mods.api.IGui;
-import me.bionicbeanie.mods.api.IGuiHandler;
+import me.bionicbeanie.mods.api.IViewHandler;
 import net.minecraft.client.MinecraftClient;
 
-public abstract class GuiHandlerBase implements IGuiHandler {
+public abstract class ViewHandlerBase implements IViewHandler {
 
     protected IFileStore fileStore;
     protected IGui gui;
     protected MinecraftClient client;
     protected WWidget panel;
 
-    protected GuiHandlerBase(IFileStore fileStore, IGui gui, MinecraftClient client) {
+    protected ViewHandlerBase(IFileStore fileStore, IGui gui, MinecraftClient client) {
         this.fileStore = fileStore;
         this.gui = gui;
         this.client = client;

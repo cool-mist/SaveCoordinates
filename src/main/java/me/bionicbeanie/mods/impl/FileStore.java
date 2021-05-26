@@ -9,6 +9,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -24,7 +26,10 @@ public class FileStore implements IFileStore {
     private Gson gson;
 
     public FileStore(String baseDir) {
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .setLenient()
+                .create();
         this.saveFilePath = Paths.get(baseDir, DEFAULT_DIR, DEFAULT_FILE);
         
         try {
@@ -35,12 +40,6 @@ public class FileStore implements IFileStore {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void save(List<PlayerPosition> positions) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -65,8 +64,21 @@ public class FileStore implements IFileStore {
         List<PlayerPosition> playerPositions = list();
         playerPositions.add(position);
 
+        saveAll(playerPositions);
+    }
+
+    @Override
+    public void delete(String id) throws IOException {
+
+        List<PlayerPosition> playerPositions = list();
+        playerPositions.removeIf(p -> StringUtils.equalsIgnoreCase(id, p.getId()));
+        
+        saveAll(playerPositions);
+    }
+
+    private void saveAll(List<PlayerPosition> playerPositions) throws IOException {
         String serialized = gson.toJson(playerPositions.toArray());
-        Files.write(saveFilePath, serialized.getBytes(), StandardOpenOption.WRITE);
+        Files.write(saveFilePath, serialized.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
     }
 
 }

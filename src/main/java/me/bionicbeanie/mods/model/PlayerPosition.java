@@ -3,10 +3,14 @@ package me.bionicbeanie.mods.model;
 public class PlayerPosition {
 
     private PlayerRawPosition rawPosition;
-    private String locationName;
+    private String id, locationName;
+    private PositionMetadata positionMetadata;
 
-    public PlayerPosition(PlayerRawPosition rawPosition, String locationName) {
+    public PlayerPosition(String id, PlayerRawPosition rawPosition, String locationName,
+            PositionMetadata positionMetadata) {
+        this.id = id;
         this.rawPosition = rawPosition;
+        this.positionMetadata = positionMetadata;
         this.locationName = locationName;
     }
 
@@ -28,5 +32,13 @@ public class PlayerPosition {
 
     public String getLocationName() {
         return locationName;
+    }
+
+    public PositionMetadata getPositionMetadata() {
+        return positionMetadata;
+    }
+
+    public String getId() {
+        return id;
     }
 }

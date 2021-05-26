@@ -2,7 +2,7 @@ package me.bionicbeanie.mods.api;
 
 public interface IGui {
 
-    public void init(IGuiHandler saveHandler, IGuiHandler listHandler, IScreenController screenController);
+    public void init(IViewHandler saveHandler, IViewHandler listHandler, IScreenController screenController);
     
     public void showDefaultView();
     

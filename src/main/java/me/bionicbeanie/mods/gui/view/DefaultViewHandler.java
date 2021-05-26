@@ -1,6 +1,7 @@
-package me.bionicbeanie.mods.gui;
+package me.bionicbeanie.mods.gui.view;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WText;
@@ -16,11 +17,11 @@ import me.bionicbeanie.mods.util.DimensionSpriteUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 
-public class SaveGuiHandler extends GuiHandlerBase {
+public class DefaultViewHandler extends ViewHandlerBase {
 
     private IPlayerLocator locator;
 
-    public SaveGuiHandler(IFileStore fileStore, IPlayerLocator locator, MinecraftClient client, IGui gui) {
+    public DefaultViewHandler(IFileStore fileStore, IPlayerLocator locator, MinecraftClient client, IGui gui) {
         super(fileStore, gui, client);
         this.locator = locator;
     }
@@ -65,7 +66,8 @@ public class SaveGuiHandler extends GuiHandlerBase {
             @Override
             public void run() {
                 try {
-                    fileStore.save(new PlayerPosition(rawPosition, textField.getText()));
+                    String id = UUID.randomUUID().toString();
+                    fileStore.save(new PlayerPosition(id, rawPosition, textField.getText(), null));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
