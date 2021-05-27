@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import io.github.cottonmc.cotton.gui.widget.WButton;
+import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WText;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
@@ -31,25 +32,37 @@ public class DefaultViewHandler extends ViewHandlerBase {
 
         PlayerRawPosition rawPosition = locator.locate(client);
 
+        WWidget xLabel= CreateLabelForCoorindate("X");
+        WWidget yLabel= CreateLabelForCoorindate("Y");
+        WWidget zLabel= CreateLabelForCoorindate("Z");
+        
         WWidget xText = CreateWidgetForCoordinate(rawPosition.getX());
         WWidget yText = CreateWidgetForCoordinate(rawPosition.getY());
         WWidget zText = CreateWidgetForCoordinate(rawPosition.getZ());
 
-        root.add(xText, 0, 1, 2, 1);
-        root.add(yText, 0, 2, 2, 1);
-        root.add(zText, 0, 3, 2, 1);
+        root.add(xLabel, 1, 1, 2, 1);
+        root.add(yLabel, 1, 2, 2, 1);
+        root.add(zLabel, 1, 3, 2, 1);
+        
+        root.add(xText, 2, 1, 2, 1);
+        root.add(yText, 2, 2, 2, 1);
+        root.add(zText, 2, 3, 2, 1);
 
         WWidget icon = DimensionSpriteUtil.CreateWorldIcon(rawPosition.getWorldDimension());
-        root.add(icon, 4, 0, 1, 1);
+        root.add(icon, 6, 1, 2, 2);
 
         WTextField name = CreateNameField();
-        root.add(name, 2, 2, 5, 1);
+        root.add(name, 0, 6, 8, 1);
 
         WWidget save = CreateSaveButton(rawPosition, name);
-        root.add(save, 5, 5, 2, 1);
+        root.add(save, 9, 6, 2, 1);
 
         WWidget list = CreateListButton();
-        root.add(list, 0, 5, 2, 1);
+        root.add(list, 9, 8, 2, 1);
+    }
+
+    private WWidget CreateLabelForCoorindate(String label) {
+        return new WLabel(label, 0xb80000);
     }
 
     private WWidget CreateWidgetForCoordinate(long l) {
@@ -57,7 +70,7 @@ public class DefaultViewHandler extends ViewHandlerBase {
     }
 
     private WTextField CreateNameField() {
-        return new WTextField(new LiteralText("name"));
+        return new WTextField(new LiteralText("location name"));
     }
 
     private WWidget CreateSaveButton(PlayerRawPosition rawPosition, WTextField textField) {

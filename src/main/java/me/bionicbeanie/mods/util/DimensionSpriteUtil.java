@@ -14,7 +14,7 @@ public class DimensionSpriteUtil {
         String dimensionItem = "netherite_ingot";
 
         if (dimension.contains("overworld")) {
-            dimensionItem = "diamond";
+            dimensionItem = "totem_of_undying";
         } else if (dimension.contains("end")) {
             dimensionItem = "ender_eye";
         }

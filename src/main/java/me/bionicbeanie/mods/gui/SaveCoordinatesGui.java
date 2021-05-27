@@ -44,7 +44,7 @@ public class SaveCoordinatesGui extends LightweightGuiDescription implements IGu
 
     private IRootGridPanel createRootPanel() {
         RootGridPanel panel = new RootGridPanel(18);
-        panel.setSize(7 * 18, 7 * 18);
+        panel.setSize(10 * 18, 10 * 18);
 
         setRootPanel(panel);
         return panel;

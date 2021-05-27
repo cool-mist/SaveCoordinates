@@ -45,7 +45,7 @@ public class ListViewHandler extends ViewHandlerBase {
 
         listPanel.setListItemHeight(2 * 18);
 
-        root.add(listPanel, 0, 0, 7, 7);
+        root.add(listPanel, 0, 0, 11, 11);
     }
 
     public static class CoordinatesListItemPanel extends WPlainPanel {
@@ -59,26 +59,28 @@ public class ListViewHandler extends ViewHandlerBase {
             this.coordinates = new WLabel("Foo");
             this.location = new WLabel("Foo");
             this.icon = new WSprite(new Identifier("minecraft:textures/item/ender_eye.png"));
-            this.deleteButton = new WButton(new LiteralText("del"));
+            this.deleteButton = new WButton(new LiteralText("x"));
 
-            this.add(icon, 0, 0, 1 * 18, 1 * 18);
-            this.add(coordinates, 1 * 18, 0, 2 * 18, 1 * 18);
-            this.add(location, 0, 1 * 18, 2 * 18, 1 * 18);
-            this.add(deleteButton, 5 * 18, 0, 1 * 18, 1 * 18);
+            this.add(icon, 0, 0, 1 * 9, 1 * 9);
+            this.add(location, 1 * 18, 0, 4 * 18, 1 * 18);
+            this.add(coordinates, 1 * 18, 1 * 18, 9 * 18, 1 * 18);
+            this.add(deleteButton, 9 * 18, 0, 1 * 18, 1 * 18);
 
-            this.icon.setSize(1 * 18, 1 * 18);
-            this.coordinates.setSize(2 * 18, 1 * 18);
-            this.location.setSize(3 * 18, 1 * 18);
+            this.icon.setSize(1 * 15, 1 * 15);
+            this.location.setSize(9 * 18, 1 * 18);
+            this.coordinates.setSize(2 * 18, 9 * 18);
             this.deleteButton.setSize(1 * 18, 1 * 18);
-            this.setSize(7 * 18, 2 * 18);
+            this.setSize(9 * 18, 2 * 18);
         }
 
         public void setPosition(PlayerPosition position, IFileStore fileStore, IGui gui) {
             this.icon.setImage(DimensionSpriteUtil.CreateWorldIconIdentifier(position.getWorldDimension()));
             this.location.setText(new LiteralText(position.getLocationName()));
-            this.coordinates.setText(new LiteralText(position.getX() + "," + position.getY() + "," + position.getZ()));
+            this.location.setColor(0x3939ac);
+            this.coordinates
+                    .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.deleteButton.setOnClick(new Runnable() {
-                
+
                 @Override
                 public void run() {
                     try {
