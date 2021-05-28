@@ -11,10 +11,11 @@ Minecraft|1.16.5
 ## Usage
 
 - Press `H` for menu
-- Select `save` to save the coordinate
-- Select `list` to view saved coordinates
+- Select `Save` to save the coordinate
+- Select `List` to view saved coordinates
 
 ## Roadmap
 
+- ModMenu integration
+- Coordinate converter utils
 - Server side support
-- More metadata to a coordinate
