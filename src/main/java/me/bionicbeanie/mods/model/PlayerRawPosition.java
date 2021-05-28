@@ -27,4 +27,9 @@ public class PlayerRawPosition {
         return worldDimension;
     }
 
+    @Override
+    public String toString() {
+        return "I'm in [ " + worldDimension + " ] at [ " + x + ", " + y + ", " + z + " ]";
+    }
+
 }

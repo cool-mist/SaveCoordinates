@@ -1,8 +1,5 @@
 package me.bionicbeanie.mods.gui.view;
 
-import java.io.IOException;
-import java.util.UUID;
-
 import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WText;
@@ -18,7 +15,7 @@ import me.bionicbeanie.mods.util.DimensionSpriteUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 
-public class DefaultViewHandler extends ViewHandlerBase {
+public class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
 
     private IPlayerLocator locator;
 
@@ -28,37 +25,64 @@ public class DefaultViewHandler extends ViewHandlerBase {
     }
 
     @Override
-    public void placeWidgets(IRootGridPanel root) {
+    public void placeWidgets(IRootGridPanel root, PlayerPosition existingPosition) {
 
-        PlayerRawPosition rawPosition = locator.locate(client);
+        PlayerRawPosition rawPosition = existingPosition == null ? locator.locate(client) : existingPosition;
 
-        WWidget xLabel= CreateLabelForCoorindate("X");
-        WWidget yLabel= CreateLabelForCoorindate("Y");
-        WWidget zLabel= CreateLabelForCoorindate("Z");
-        
+        WWidget xLabel = CreateLabelForCoorindate("X");
+        WWidget yLabel = CreateLabelForCoorindate("Y");
+        WWidget zLabel = CreateLabelForCoorindate("Z");
+
         WWidget xText = CreateWidgetForCoordinate(rawPosition.getX());
         WWidget yText = CreateWidgetForCoordinate(rawPosition.getY());
         WWidget zText = CreateWidgetForCoordinate(rawPosition.getZ());
 
-        root.add(xLabel, 1, 1, 2, 1);
-        root.add(yLabel, 1, 2, 2, 1);
-        root.add(zLabel, 1, 3, 2, 1);
-        
-        root.add(xText, 2, 1, 2, 1);
-        root.add(yText, 2, 2, 2, 1);
-        root.add(zText, 2, 3, 2, 1);
+        root.add(xLabel, 2, 1, 2, 1);
+        root.add(yLabel, 2, 2, 2, 1);
+        root.add(zLabel, 2, 3, 2, 1);
+
+        root.add(xText, 3, 1, 2, 1);
+        root.add(yText, 3, 2, 2, 1);
+        root.add(zText, 3, 3, 2, 1);
 
         WWidget icon = DimensionSpriteUtil.CreateWorldIcon(rawPosition.getWorldDimension());
-        root.add(icon, 6, 1, 2, 2);
+        root.add(icon, 8, 1, 2, 2);
 
-        WTextField name = CreateNameField();
-        root.add(name, 0, 6, 8, 1);
+        String defaultWorld = getDefaultWorld(existingPosition);
+        WTextField world = CreateWorldField(defaultWorld);
+        root.add(world, 0, 4, 4, 1);
 
-        WWidget save = CreateSaveButton(rawPosition, name);
-        root.add(save, 9, 6, 2, 1);
+        WTextField location = CreateLocationField(existingPosition);
+        root.add(location, 5, 4, 7, 1);
+        
+        WTextField notes = CreateNotesField(existingPosition);
+        root.add(notes, 0, 6, 12, 1);
+
+        WWidget save = CreateSaveButton(rawPosition, location, notes, world, existingPosition);
+        root.add(save, 13, 6, 2, 1);
 
         WWidget list = CreateListButton();
-        root.add(list, 9, 8, 2, 1);
+        root.add(list, 13, 9, 2, 1);
+
+        WWidget ping = CreatePingButton(rawPosition);
+        root.add(ping, 13, 1, 2, 1);
+
+        WWidget close = CreateCloseButton();
+        root.add(close, 0, 9, 2, 1);
+    }
+
+    private String getDefaultWorld(PlayerPosition existingPosition) {
+        if (existingPosition != null && existingPosition.getPositionMetadata().getWorldName() != null) {
+            return existingPosition.getPositionMetadata().getWorldName();
+        }
+
+        try {
+            return fileStore.getDefaultWorld();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     private WWidget CreateLabelForCoorindate(String label) {
@@ -69,31 +93,57 @@ public class DefaultViewHandler extends ViewHandlerBase {
         return new WText(new LiteralText(String.valueOf(l)), 0x3939ac);
     }
 
-    private WTextField CreateNameField() {
-        return new WTextField(new LiteralText("location name"));
+    private WTextField CreateLocationField(PlayerPosition existingPosition) {
+        WTextField location = new WTextField(new LiteralText("location name"));
+
+        if (existingPosition != null) {
+            location.setText(existingPosition.getLocationName());
+        }
+        
+        location.setMaxLength(20);
+
+        return location;
     }
 
-    private WWidget CreateSaveButton(PlayerRawPosition rawPosition, WTextField textField) {
-        WButton button = new WButton(new LiteralText("save"));
-        button.setOnClick(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String id = UUID.randomUUID().toString();
-                    fileStore.save(new PlayerPosition(id, rawPosition, textField.getText(), null));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private WTextField CreateNotesField(PlayerPosition existingPosition) {
+        WTextField notes = new WTextField(new LiteralText("additional notes"));
 
-                gui.close();
-            }
-        });
+        if (existingPosition != null && existingPosition.getPositionMetadata() != null) {
+            notes.setText(existingPosition.getPositionMetadata().getNotes());
+        }
+
+        return notes;
+    }
+
+    private WTextField CreateWorldField(String defaultWorld) {
+        WTextField world = new WTextField(new LiteralText("world name"));
+        world.setMaxLength(7);
+        world.setText(defaultWorld);
+        return world;
+    }
+
+    private WWidget CreateSaveButton(PlayerRawPosition rawPosition, WTextField location, WTextField notes,
+            WTextField world, PlayerPosition existingPosition) {
+        WButton button = new WButton(new LiteralText("SAVE"));
+        button.setOnClick(new SaveOperation(fileStore, gui, rawPosition, world, location, notes, existingPosition));
         return button;
     }
 
     private WWidget CreateListButton() {
-        WButton button = new WButton(new LiteralText("list"));
+        WButton button = new WButton(new LiteralText("LIST"));
         button.setOnClick(gui::showListView);
+        return button;
+    }
+
+    private WWidget CreatePingButton(PlayerRawPosition rawPosition) {
+        WButton button = new WButton(new LiteralText("PING"));
+        button.setOnClick(new PingOperation(fileStore, gui, rawPosition));
+        return button;
+    }
+
+    private WWidget CreateCloseButton() {
+        WButton button = new WButton(new LiteralText("CLOSE"));
+        button.setOnClick(gui::close);
         return button;
     }
 }

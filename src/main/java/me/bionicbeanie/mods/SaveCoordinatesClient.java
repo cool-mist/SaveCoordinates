@@ -13,6 +13,7 @@ import me.bionicbeanie.mods.gui.view.DefaultViewHandler;
 import me.bionicbeanie.mods.gui.view.ListViewHandler;
 import me.bionicbeanie.mods.impl.FileStore;
 import me.bionicbeanie.mods.impl.PlayerLocator;
+import me.bionicbeanie.mods.model.PlayerPosition;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -50,11 +51,11 @@ public class SaveCoordinatesClient implements ClientModInitializer {
     private IGui CreateModGui(MinecraftClient client) {
         IGui gui = new SaveCoordinatesGui();
         IFileStore fileStore = new FileStore(client.runDirectory.getAbsolutePath());
-        IViewHandler saveHandler = new DefaultViewHandler(fileStore, locator, client, gui);
-        IViewHandler listHandler = new ListViewHandler(fileStore, gui, client);
+        IViewHandler<PlayerPosition> defaultHandler = new DefaultViewHandler(fileStore, locator, client, gui);
+        IViewHandler<Void> listHandler = new ListViewHandler(fileStore, gui, client);
         IScreenController screenController = new ScreenController(client);
 
-        gui.init(saveHandler, listHandler, screenController);
+        gui.init(defaultHandler, listHandler, screenController);
 
         return gui;
     }

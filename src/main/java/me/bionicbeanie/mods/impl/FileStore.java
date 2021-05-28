@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import me.bionicbeanie.mods.api.IFileStore;
+import me.bionicbeanie.mods.model.ModData;
 import me.bionicbeanie.mods.model.PlayerPosition;
 
 public class FileStore implements IFileStore {
@@ -26,12 +27,9 @@ public class FileStore implements IFileStore {
     private Gson gson;
 
     public FileStore(String baseDir) {
-        this.gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .setLenient()
-                .create();
+        this.gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
         this.saveFilePath = Paths.get(baseDir, DEFAULT_DIR, DEFAULT_FILE);
-        
+
         try {
             Files.createDirectories(Paths.get(baseDir, DEFAULT_DIR));
             Files.createFile(this.saveFilePath);
@@ -43,15 +41,28 @@ public class FileStore implements IFileStore {
     }
 
     @Override
-    public List<PlayerPosition> list() throws IOException {
-        List<String> lines = Files.readAllLines(saveFilePath);
-        PlayerPosition[] positions = gson.fromJson(String.join("", lines), PlayerPosition[].class);
+    public String getDefaultWorld() throws IOException {
+        ModData data = load();
+        
+        return data.defaultWorldName;
+    }
 
+    @Override
+    public void setDefaultWorld(String defaultWorldName) throws IOException {
+        ModData data = load();
+        data.defaultWorldName = defaultWorldName;
+
+        dump(data);
+    }
+
+    @Override
+    public List<PlayerPosition> list() throws IOException {
+        ModData data = load();
         List<PlayerPosition> playerPositionList = new LinkedList<>();
 
-        if (positions != null) {
-            for (int i = 0; i < positions.length; ++i) {
-                playerPositionList.add(positions[i]);
+        if (data.positions != null) {
+            for (int i = 0; i < data.positions.length; ++i) {
+                playerPositionList.add(data.positions[i]);
             }
         }
 
@@ -60,25 +71,45 @@ public class FileStore implements IFileStore {
 
     @Override
     public void save(PlayerPosition position) throws IOException {
-
         List<PlayerPosition> playerPositions = list();
+        playerPositions.removeIf(p -> StringUtils.equalsIgnoreCase(position.getId(), p.getId()));
         playerPositions.add(position);
 
-        saveAll(playerPositions);
+        savePositions(playerPositions);
     }
 
     @Override
     public void delete(String id) throws IOException {
-
         List<PlayerPosition> playerPositions = list();
         playerPositions.removeIf(p -> StringUtils.equalsIgnoreCase(id, p.getId()));
-        
-        saveAll(playerPositions);
+        savePositions(playerPositions);
     }
 
-    private void saveAll(List<PlayerPosition> playerPositions) throws IOException {
-        String serialized = gson.toJson(playerPositions.toArray());
+    private void dump(ModData data) throws IOException {
+        String serialized = gson.toJson(data);
         Files.write(saveFilePath, serialized.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    private void savePositions(List<PlayerPosition> playerPositions) throws IOException {
+        ModData data = load();
+        data.positions = playerPositions.toArray(new PlayerPosition[playerPositions.size()]);
+        dump(data);
+    }
+
+    private ModData load() throws IOException {
+        List<String> lines = Files.readAllLines(saveFilePath);
+        try {
+            return gson.fromJson(String.join("", lines), ModData.class);
+        } catch (Exception e) {
+            // Fallback for old versions
+            ModData data = new ModData();
+            data.defaultWorldName = "";
+            data.positions = gson.fromJson(String.join("", lines), PlayerPosition[].class);
+
+            dump(data);
+
+            return data;
+        }
     }
 
 }
