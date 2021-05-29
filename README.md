@@ -1,4 +1,8 @@
+<img src="src/main/resources/assets/savecoords/icon.png" align="right" width="150px"/>
+
 # Save Coordinates Fabric MC
+
+<a href ="https://github.com/cool-mist/SaveCoordinates/releases"><img src = "https://img.shields.io/github/v/release/cool-mist/SaveCoordinates?style=flat-square" /></a>
 
 ## Dependencies
 
@@ -12,10 +16,6 @@ Minecraft|1.16.5
 
 - Press `H` for menu
 - Select `Save` to save the coordinate
+- Select `Ping` to ping the coordinate to other players
 - Select `List` to view saved coordinates
-
-## Roadmap
-
-- ModMenu integration
-- Coordinate converter utils
-- Server side support
+- Select `+` to edit coordinate
