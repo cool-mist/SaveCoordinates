@@ -24,8 +24,7 @@ public class TexturedButton extends WButton {
         super.paint(matrices, x, y, mouseX, mouseY);
 
         if (texture != null) {
-            ScreenDrawing.texturedGuiRect(matrices, x + 1, y + 1, getWidth() - 2, getHeight() - 2, texture, -1, -1,
-                    0xFFFFFF);
+            ScreenDrawing.texturedGuiRect(matrices, x + 2, y + 2, 14, 16, texture, 0, 0, 0xFFFFFF);
         }
 
         if (getLabel() != null) {

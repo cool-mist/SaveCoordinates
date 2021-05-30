@@ -28,7 +28,8 @@ class KeyBindConfiguration implements IKeyBindConfiguration {
 
     @Override
     public void setDefaultKeyBinding(int keyCode) {
-        defaultKeyBinding = createKeyBinding(keyCode);
+        defaultKeyBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(keyCode));
+        KeyBinding.updateKeysByCode();
     }
 
     private KeyBinding createDefaultKeyBinding(IFileStore fileStore) throws IOException {

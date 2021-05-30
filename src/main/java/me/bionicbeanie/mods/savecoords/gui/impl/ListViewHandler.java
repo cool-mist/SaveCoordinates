@@ -115,7 +115,6 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.pingButton = new WButton(new LiteralText(""));
             this.detailButton = new WButton(new LiteralText(""));
 
-            this.deleteButton.setIcon(ResourceUtils.CreateCloseIcon());
             this.pingButton.setIcon(ResourceUtils.CreatePingIcon());
             this.detailButton.setIcon(ResourceUtils.CreateDetailsIcon());
 
@@ -124,8 +123,8 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.add(location, 4 * 18, 0, 4 * 18, 1 * 18);
             this.add(coordinates, 3 * 18, 1 * 18, 9 * 18, 1 * 18);
             this.add(deleteButton, 13 * 18, 0, 1 * 18, 1 * 18);
-            this.add(pingButton, 1 * 18, 1 * 18, 1 * 18, 1 * 18);
-            this.add(detailButton, 11 * 18, 0, 1 * 18, 1 * 18);
+            this.add(pingButton, 11 * 18 - 2, 0, 1 * 18, 1 * 18);
+            this.add(detailButton, 12 * 18 - 1, 0, 1 * 18, 1 * 18);
 
             this.icon.setSize(1 * 15, 1 * 15);
             this.world.setSize(3 * 18, 1 * 18);
