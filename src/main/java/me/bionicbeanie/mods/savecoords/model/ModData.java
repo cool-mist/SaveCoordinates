@@ -2,7 +2,33 @@ package me.bionicbeanie.mods.savecoords.model;
 
 public class ModData {
 
-    public String defaultWorldName;
+    private String defaultWorldName;
     
-    public PlayerPosition[] positions;
+    private PlayerPosition[] positions;
+    
+    private ConfigData configData;
+
+    public String getDefaultWorldName() {
+        return defaultWorldName;
+    }
+
+    public void setDefaultWorldName(String defaultWorldName) {
+        this.defaultWorldName = defaultWorldName;
+    }
+
+    public PlayerPosition[] getPositions() {
+        return positions;
+    }
+
+    public void setPositions(PlayerPosition[] positions) {
+        this.positions = positions;
+    }
+
+    public ConfigData getConfigData() {
+        return configData;
+    }
+
+    public void setConfigData(ConfigData configData) {
+        this.configData = configData;
+    }
 }

@@ -39,7 +39,7 @@ public class ResourceUtils {
         return new TextureIcon(CreateIdentifier("more"));
     }
 
-    private static Identifier CreateIdentifier(String file) {
+    public static Identifier CreateIdentifier(String file) {
         return new Identifier("savecoords", "textures/gui/" + file + ".png");
     }
 }

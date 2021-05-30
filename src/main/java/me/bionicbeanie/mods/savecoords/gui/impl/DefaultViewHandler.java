@@ -39,7 +39,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     @Override
-    public Supplier<PlayerPosition> placeWidgets(IRootPanel root, PlayerPosition existingPosition) {
+    public Supplier<PlayerPosition> setupView(IRootPanel root, PlayerPosition existingPosition) {
 
         PlayerRawPosition rawPosition = existingPosition == null ? locator.locate() : existingPosition;
 
@@ -134,7 +134,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         }
 
         try {
-            return fileStore.getDefaultWorld();
+            return fileStore.readDefaultWorldName();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,8 +186,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WButton CreateButton(String name) {
-        WButton button = new WButton(new LiteralText(name));
-
-        return button;
+        return new WButton(new LiteralText(name));
     }
 }

@@ -17,16 +17,21 @@ abstract class ViewHandlerBase<T> extends LightweightGuiDescription implements I
         this.rootGridPanel = createRootPanel();
     }
 
-    protected abstract Supplier<T> placeWidgets(IRootPanel rootGridPanel, T state);
+    protected abstract Supplier<T> setupView(IRootPanel rootGridPanel, T state);
+
+    protected Screen createScreen() {
+        return new SaveCoordinatesScreen(this);
+    }
 
     @Override
     public Screen createView(T state) {
         rootGridPanel.reset();
-        this.stateSupplier = placeWidgets(rootGridPanel, state);
+        this.stateSupplier = setupView(rootGridPanel, state);
         rootGridPanel.validate();
-        return new SaveCoordinatesScreen(this);
+
+        return createScreen();
     }
-    
+
     @Override
     public T getState() {
         return stateSupplier.get();

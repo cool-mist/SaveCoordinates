@@ -4,14 +4,14 @@ import java.util.function.Supplier;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
 
-class DeleteOperation extends ViewOperationBase<String> {
+class DeletePositionOperation extends ViewOperationBase<String> {
 
-    public DeleteOperation(IFileStore fileStore, Supplier<String> stateSupplier) {
+    public DeletePositionOperation(IFileStore fileStore, Supplier<String> stateSupplier) {
         super(fileStore, stateSupplier);
     }
 
     @Override
     protected void executeOperation(IFileStore fileStore, String positionId) throws Exception {
-        fileStore.delete(positionId);
+        fileStore.deletePosition(positionId);
     }
 }

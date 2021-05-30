@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.bionicbeanie.mods.SaveCoordinatesClient"
+      "me.bionicbeanie.mods.savecoords.SaveCoordinatesClient"
     ]
   },
   "mixins": [

@@ -38,7 +38,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     }
 
     @Override
-    public Supplier<Void> placeWidgets(IRootPanel root, Void nullState) {
+    public Supplier<Void> setupView(IRootPanel root, Void nullState) {
 
         List<PlayerPosition> positions = getPositions(fileStore);
         WListPanel<PlayerPosition, CoordinatesListItemPanel> listPanel = createListPane(positions);
@@ -77,7 +77,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
 
     private List<PlayerPosition> getPositions(IFileStore fileStore) {
         try {
-            List<PlayerPosition> positions = fileStore.list();
+            List<PlayerPosition> positions = fileStore.listPositions();
             Collections.sort(positions, (p1, p2) -> p2.getPositionMetadata().getLastModified()
                     .compareTo(p1.getPositionMetadata().getLastModified()));
             return positions;
@@ -111,7 +111,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.location = new WLabel("Foo");
             this.world = new WLabel("Foo");
             this.icon = new WSprite(new Identifier("minecraft:textures/item/ender_eye.png"));
-            this.deleteButton = new WButton(new LiteralText("x"));
+            this.deleteButton = createDeleteButton();
             this.pingButton = new WButton(new LiteralText(""));
             this.detailButton = new WButton(new LiteralText(""));
 
@@ -136,6 +136,13 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.detailButton.setSize(1 * 18, 1 * 18);
 
             this.setSize(15 * 18, 2 * 18);
+        }
+
+        private WButton createDeleteButton() {
+            TexturedButton button = new TexturedButton(new LiteralText("x"));
+            button.setTexture(ResourceUtils.CreateIdentifier("close"));
+            
+            return button;
         }
 
         void setPosition(PlayerPosition position, IFileStore fileStore) {

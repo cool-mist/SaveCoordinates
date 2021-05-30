@@ -3,16 +3,21 @@ package me.bionicbeanie.mods.savecoords;
 import java.io.IOException;
 import java.util.List;
 
+import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 
 public interface IFileStore {
-    String getDefaultWorld() throws IOException;
+    String readDefaultWorldName() throws IOException;
+    
+    ConfigData readConfigData() throws IOException;
 
-    void setDefaultWorld(String defaultWorldName) throws IOException;
+    void writeDefaultWorldName(String defaultWorldName) throws IOException;
 
-    void save(PlayerPosition position) throws IOException;
+    void writePosition(PlayerPosition position) throws IOException;
+    
+    void writeConfigs(ConfigData configData) throws IOException;
 
-    void delete(String id) throws IOException;
+    void deletePosition(String id) throws IOException;
 
-    List<PlayerPosition> list() throws IOException;
+    List<PlayerPosition> listPositions() throws IOException;
 }

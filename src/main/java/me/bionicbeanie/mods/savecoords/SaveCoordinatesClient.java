@@ -1,35 +1,25 @@
 package me.bionicbeanie.mods.savecoords;
 
-import org.lwjgl.glfw.GLFW;
-
+import me.bionicbeanie.mods.savecoords.gui.IKeyBindConfiguration;
 import me.bionicbeanie.mods.savecoords.gui.impl.ModGui;
+import me.bionicbeanie.mods.savecoords.impl.Factory;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.options.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.MinecraftClient;
 
 public class SaveCoordinatesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
 
-        KeyBinding keyBinding = registerKeyBinding();
-
+        @SuppressWarnings("resource")
+        IFileStore fileStore = Factory.createFileStore(MinecraftClient.getInstance().runDirectory.getAbsolutePath());
+        IKeyBindConfiguration keyBindConfiguration = Factory.createKeyBindConfiguration(fileStore);
+        
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (keyBinding.wasPressed()) {
-                ModGui.start(client);
+            while (keyBindConfiguration.getDefaultKeyBinding().wasPressed()) {
+                ModGui.start(client, fileStore, keyBindConfiguration);
             }
         });
-    }
-
-    private KeyBinding registerKeyBinding() {
-        String translationKey = "key.savecoords.coords";
-        String category = "category.savecoords.generic";
-        int keyBind = GLFW.GLFW_KEY_H;
-
-        KeyBinding keyBinding = new KeyBinding(translationKey, InputUtil.Type.KEYSYM, keyBind, category);
-        
-        return KeyBindingHelper.registerKeyBinding(keyBinding);
     }
 }
