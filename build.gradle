@@ -15,15 +15,21 @@ repositories {
         name = "CottonMC"
         url = "https://server.bbkr.space/artifactory/libs-release"
     }
+    maven { 
+        name = "ClothConfig" 
+        url = "https://maven.shedaniel.me/"
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
+    modImplementation include("me.shedaniel.cloth:cloth-config-fabric:${project.clothconfig_version}")
 }
 
 processResources {
