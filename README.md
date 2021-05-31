@@ -6,11 +6,12 @@
 
 ## Dependencies
 
-Item|Minimum version
--|-
+Item|Minimum version|Requirement
+-|-|-
 Java|1.8
 Minecraft|1.16.5
 [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) | 0.34.2+1.16
+[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) | 1.16.9| Optional
 
 ## Usage
 
