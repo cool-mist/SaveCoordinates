@@ -1,36 +1,35 @@
 {
-  "schemaVersion": 1,
-  "id": "savecoords",
-  "version": "${version}",
-
-  "name": "Save Coordinates",
-  "description": "Fabric mod to store the current coordinates",
-  "authors": [
-    "cool-mist"
-  ],
-  "contact": {
-    "homepage": "https://mods.bionicbeanie.me/SaveCoordinates",
-    "sources": "https://github.com/cool-mist/SaveCoordinates"
-  },
-
-  "license": "CC0-1.0",
-  "icon": "assets/savecoords/icon.png",
-
-  "environment": "*",
-  "entrypoints": {
-    "client": [
-      "me.bionicbeanie.mods.savecoords.SaveCoordinatesClient"
-    ]
-  },
-  "mixins": [
-  ],
-
-  "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "another-mod": "*"
-  }
+    "schemaVersion": 1,
+    "id": "savecoords",
+    "version": "${version}",
+    "name": "Save Coordinates",
+    "description": "SaveCoordinates is a client side coordinate manager mod. This helps to avoid context switching when looking for or sharing in-game coordinates",
+    "authors": [
+        "cool-mist"
+    ],
+    "contact": {
+        "homepage": "https://github.com/cool-mist/SaveCoordinates",
+        "sources": "https://github.com/cool-mist/SaveCoordinates",
+        "issues" : "https://github.com/cool-mist/SaveCoordinates/issues"
+    },
+    "license": "LGPLv3",
+    "icon": "assets/savecoords/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "me.bionicbeanie.mods.savecoords.SaveCoordinatesClient"
+        ],
+        "modmenu": [
+            "me.bionicbeanie.mods.savecoords.modmenu.SaveCoordinatesModMenu"
+        ]
+    },
+    "mixins": [],
+    "depends": {
+        "fabricloader": ">=0.7.4",
+        "fabric": ">=0.34.2",
+        "minecraft": "1.16.5"
+    },
+    "suggests": {
+        "another-mod": "modmenu"
+    }
 }

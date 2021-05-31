@@ -10,11 +10,13 @@ import net.minecraft.client.util.InputUtil;
 
 class KeyBindConfiguration implements IKeyBindConfiguration {
 
-    KeyBinding defaultKeyBinding;
-
+    private KeyBinding defaultKeyBinding;
+    private IFileStore fileStore;
+    
     KeyBindConfiguration(IFileStore fileStore) {
+        this.fileStore = fileStore;
         try {
-            defaultKeyBinding = createDefaultKeyBinding(fileStore);
+            this.defaultKeyBinding = createDefaultKeyBinding(fileStore);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -28,8 +30,20 @@ class KeyBindConfiguration implements IKeyBindConfiguration {
 
     @Override
     public void setDefaultKeyBinding(int keyCode) {
+        writeConfigs(keyCode);
         defaultKeyBinding.setBoundKey(InputUtil.Type.KEYSYM.createFromCode(keyCode));
         KeyBinding.updateKeysByCode();
+    }
+
+    private void writeConfigs(int keyCode) {
+        try {
+            ConfigData data = fileStore.readConfigData();
+            data.setDefaultKeyBindingCode(keyCode);
+            
+            fileStore.writeConfigs(data);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private KeyBinding createDefaultKeyBinding(IFileStore fileStore) throws IOException {

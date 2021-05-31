@@ -52,7 +52,8 @@ class FileStore implements IFileStore {
     public ConfigData readConfigData() throws IOException {
         ModData data = load();
         
-        return data.getConfigData();
+        ConfigData ret = data.getConfigData();
+        return ret != null ? ret : new ConfigData();
     }
 
 

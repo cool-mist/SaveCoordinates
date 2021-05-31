@@ -78,8 +78,13 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     private List<PlayerPosition> getPositions(IFileStore fileStore) {
         try {
             List<PlayerPosition> positions = fileStore.listPositions();
-            Collections.sort(positions, (p1, p2) -> p2.getPositionMetadata().getLastModified()
-                    .compareTo(p1.getPositionMetadata().getLastModified()));
+            Collections.sort(positions, (p1, p2) -> {
+                if(p1.getPositionMetadata() != null && p2.getPositionMetadata() != null) {
+                    return p2.getPositionMetadata().getLastModified().compareTo(p1.getPositionMetadata().getLastModified());
+                }
+                
+                return -1;
+            });
             return positions;
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,7 +145,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         private WButton createDeleteButton() {
             TexturedButton button = new TexturedButton(new LiteralText("x"));
             button.setTexture(ResourceUtils.CreateIdentifier("close"));
-            
+
             return button;
         }
 
@@ -148,8 +153,11 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.icon.setImage(ResourceUtils.CreateWorldIconIdentifier(position.getWorldDimension()));
             this.location.setText(new LiteralText(position.getLocationName()));
             this.location.setColor(0x3939ac);
-            this.world.setText(new LiteralText("[" + position.getPositionMetadata().getWorldName() + "]"));
-            this.world.setColor(0xb80000);
+            if(position.getPositionMetadata() != null) {
+                this.world.setText(new LiteralText("[" + position.getPositionMetadata().getWorldName() + "]"));
+                this.world.setColor(0xb80000);
+            }
+            
             this.coordinates
                     .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.deleteButton.setOnClick(() -> onDelete.accept(position));

@@ -3,6 +3,7 @@ package me.bionicbeanie.mods.savecoords.gui.impl;
 import java.io.IOException;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
+import me.bionicbeanie.mods.savecoords.IModGui;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.gui.IGuiController;
 import me.bionicbeanie.mods.savecoords.gui.IKeyBindConfiguration;
@@ -10,8 +11,9 @@ import me.bionicbeanie.mods.savecoords.gui.IViewHandler;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
+import net.minecraft.client.gui.screen.Screen;
 
-public class SaveCoordinatesGui {
+public class SaveCoordinatesGui implements IModGui {
 
     private IGuiController screenController;
     private IFileStore fileStore;
@@ -32,7 +34,21 @@ public class SaveCoordinatesGui {
         this.listHandler = CreateListViewHandler();
         this.configHandler = CreateConfigHandler();
 
+    }
+
+    @Override
+    public void open() {
         showDefaultView(null);
+    }
+
+    private Screen createConfigScreen() {
+        try {
+            return this.configHandler.createView(fileStore.readConfigData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
@@ -84,7 +100,7 @@ public class SaveCoordinatesGui {
     }
 
     private void onSaveConfigs() {
-        new SaveConfigsOperation(fileStore, keyBindConfiguration, configHandler::getState).run();
+        new SaveConfigsOperation(keyBindConfiguration, configHandler::getState).run();
         showDefaultView(null);
     }
 
@@ -97,10 +113,7 @@ public class SaveCoordinatesGui {
     }
 
     private void showConfigView() {
-        try {
-            screenController.openScreen(this.configHandler.createView(fileStore.readConfigData()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        screenController.openScreen(createConfigScreen());
     }
+
 }

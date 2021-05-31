@@ -15,7 +15,7 @@ public class ResourceUtils {
     public static Identifier CreateWorldIconIdentifier(String dimension) {
 
         if (dimension == null)
-            return CreateIdentifier("nonExistent");
+            return CreateIdentifier("nonexistent");
         if (dimension.contains("overworld"))
             return CreateIdentifier("overworld");
         if (dimension.contains("nether"))
@@ -23,7 +23,7 @@ public class ResourceUtils {
         if (dimension.contains("end"))
             return CreateIdentifier("end");
 
-        return CreateIdentifier("nonExistent");
+        return CreateIdentifier("nonexistent");
 
     }
 

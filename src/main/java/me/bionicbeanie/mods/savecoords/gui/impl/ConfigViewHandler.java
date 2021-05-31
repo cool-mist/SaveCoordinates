@@ -26,7 +26,7 @@ class ConfigViewHandler extends ViewHandlerBase<ConfigData> {
         backButton = new WButton(new LiteralText("BACK"));
         resetButton = new WButton(new LiteralText("RESET"));
     }
-
+    
     @Override
     protected Supplier<ConfigData> setupView(IRootPanel rootGridPanel, ConfigData state) {
 

@@ -10,15 +10,14 @@ public class SaveConfigsOperation extends ViewOperationBase<ConfigData>{
 
     private IKeyBindConfiguration keyBindConfiguration;
 
-    public SaveConfigsOperation(IFileStore fileStore, IKeyBindConfiguration keyBindConfiguration, Supplier<ConfigData> stateSupplier) {
-        super(fileStore, stateSupplier);
+    public SaveConfigsOperation(IKeyBindConfiguration keyBindConfiguration, Supplier<ConfigData> stateSupplier) {
+        super(null, stateSupplier);
         
         this.keyBindConfiguration = keyBindConfiguration;
     }
 
     @Override
     protected void executeOperation(IFileStore fileStore, ConfigData state) throws Exception {
-        fileStore.writeConfigs(state);
         this.keyBindConfiguration.setDefaultKeyBinding(state.getDefaultKeyBindingCode());
     }
 }

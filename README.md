@@ -1,8 +1,8 @@
 <img src="src/main/resources/assets/savecoords/icon.png" align="right" width="150px"/>
 
-# Save Coordinates Fabric MC
+# Save Coordinates Fabric Mod
 
-<a href ="https://github.com/cool-mist/SaveCoordinates/releases"><img src = "https://img.shields.io/github/v/release/cool-mist/SaveCoordinates?style=flat-square" /></a>
+<img src = "https://img.shields.io/github/v/release/cool-mist/SaveCoordinates?style=flat-square" />  <a href = "https://www.curseforge.com/minecraft/mc-mods/savecoordinates/files"><img src = "https://cf.way2muchnoise.eu/versions/savecoordinates_latest.svg"/> </a>
 
 ## Dependencies
 
@@ -14,8 +14,8 @@ Minecraft|1.16.5
 
 ## Usage
 
-- Press `H` for menu
-- Select `Save` to save the coordinate
-- Select `Ping` to ping the coordinate to other players
-- Select `List` to view saved coordinates
-- Select `+` to edit coordinate
+- Press `H` for menu (This is the default keybinding to open the mod ui)
+- Select `SAVE` to save the coordinate
+- Select `PING` to ping the coordinate to other players
+- Select `LIST` to view saved coordinates
+- Select `CONF` to update default keybinding
