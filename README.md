@@ -16,7 +16,7 @@ Minecraft|1.16.5
 ## Usage
 
 - Press `H` for menu (This is the default keybinding to open the mod ui)
+- Press `B` to beam your location in chat
 - Select `SAVE` to save the coordinate
 - Select `PING` to ping the coordinate to other players
 - Select `LIST` to view saved coordinates
-- Select `CONF` to update default keybinding
