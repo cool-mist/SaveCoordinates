@@ -1,16 +1,12 @@
 package me.bionicbeanie.mods.savecoords.gui.impl;
 
-import java.io.IOException;
-
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IModGui;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.gui.IGuiController;
 import me.bionicbeanie.mods.savecoords.gui.IViewHandler;
-import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
-import net.minecraft.client.gui.screen.Screen;
 
 public class SaveCoordinatesGui implements IModGui {
 

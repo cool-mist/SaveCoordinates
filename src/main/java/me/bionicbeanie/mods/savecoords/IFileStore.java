@@ -3,7 +3,6 @@ package me.bionicbeanie.mods.savecoords;
 import java.io.IOException;
 import java.util.List;
 
-import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 
 public interface IFileStore {

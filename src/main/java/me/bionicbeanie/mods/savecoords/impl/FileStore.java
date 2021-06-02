@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
-import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.ModData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 
