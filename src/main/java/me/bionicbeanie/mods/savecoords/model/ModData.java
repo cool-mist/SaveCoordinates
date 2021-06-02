@@ -2,11 +2,9 @@ package me.bionicbeanie.mods.savecoords.model;
 
 public class ModData {
 
-    private String defaultWorldName;
+    private String defaultWorldName = "";
     
     private PlayerPosition[] positions;
-    
-    private ConfigData configData;
 
     public String getDefaultWorldName() {
         return defaultWorldName;
@@ -22,13 +20,5 @@ public class ModData {
 
     public void setPositions(PlayerPosition[] positions) {
         this.positions = positions;
-    }
-
-    public ConfigData getConfigData() {
-        return configData;
-    }
-
-    public void setConfigData(ConfigData configData) {
-        this.configData = configData;
     }
 }

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +35,8 @@ class FileStore implements IFileStore {
         try {
             Files.createDirectories(Paths.get(baseDir, DEFAULT_DIR));
             Files.createFile(this.saveFilePath);
+            ModData data = new ModData();
+            dump(data);
         } catch (FileAlreadyExistsException e) {
             // ignore
         } catch (IOException e) {
@@ -47,29 +50,13 @@ class FileStore implements IFileStore {
         
         return data.getDefaultWorldName();
     }
-    
-    @Override
-    public ConfigData readConfigData() throws IOException {
-        ModData data = load();
-        
-        ConfigData ret = data.getConfigData();
-        return ret != null ? ret : new ConfigData();
-    }
 
 
     @Override
     public void writeDefaultWorldName(String defaultWorldName) throws IOException {
         ModData data = load();
-        data.setDefaultWorldName(defaultWorldName);;
+        data.setDefaultWorldName(defaultWorldName);
 
-        dump(data);
-    }
-    
-    @Override
-    public void writeConfigs(ConfigData configData) throws IOException {
-        ModData data = load();
-        data.setConfigData(configData);
-        
         dump(data);
     }
 
@@ -79,9 +66,7 @@ class FileStore implements IFileStore {
         List<PlayerPosition> playerPositionList = new LinkedList<>();
 
         if (data.getPositions() != null) {
-            for (int i = 0; i < data.getPositions().length; ++i) {
-                playerPositionList.add(data.getPositions()[i]);
-            }
+            playerPositionList.addAll(Arrays.asList(data.getPositions()));
         }
 
         return playerPositionList;
@@ -110,7 +95,7 @@ class FileStore implements IFileStore {
 
     private void savePositions(List<PlayerPosition> playerPositions) throws IOException {
         ModData data = load();
-        data.setPositions(playerPositions.toArray(new PlayerPosition[playerPositions.size()]));
+        data.setPositions(playerPositions.toArray(new PlayerPosition[0]));
         dump(data);
     }
 

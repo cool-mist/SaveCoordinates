@@ -6,7 +6,6 @@ import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IModGui;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.gui.IGuiController;
-import me.bionicbeanie.mods.savecoords.gui.IKeyBindConfiguration;
 import me.bionicbeanie.mods.savecoords.gui.IViewHandler;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
@@ -19,21 +18,16 @@ public class SaveCoordinatesGui implements IModGui {
     private IFileStore fileStore;
     private IViewHandler<PlayerPosition> defaultHandler;
     private IViewHandler<Void> listHandler;
-    private IViewHandler<ConfigData> configHandler;
     private IPlayerLocator locator;
-    private IKeyBindConfiguration keyBindConfiguration;
 
-    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IKeyBindConfiguration keyBindConfiguration,
+    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator,
             IGuiController screenController) {
         this.screenController = screenController;
         this.fileStore = fileStore;
-        this.keyBindConfiguration = keyBindConfiguration;
         this.locator = locator;
 
         this.defaultHandler = CreateDefaultViewHandler();
         this.listHandler = CreateListViewHandler();
-        this.configHandler = CreateConfigHandler();
-
     }
 
     @Override
@@ -41,22 +35,11 @@ public class SaveCoordinatesGui implements IModGui {
         showDefaultView(null);
     }
 
-    private Screen createConfigScreen() {
-        try {
-            return this.configHandler.createView(fileStore.readConfigData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
         DefaultViewHandler handler = new DefaultViewHandler(fileStore, locator);
 
         handler.onSave(this::onSavePosition);
         handler.onList(this::showListView);
-        handler.onConfig(this::showConfigView);
         handler.onPing(new PingPositionOperation(fileStore, locator::locate));
         handler.onClose(screenController::closeScreen);
 
@@ -72,22 +55,13 @@ public class SaveCoordinatesGui implements IModGui {
         return handler;
     }
 
-    private IViewHandler<ConfigData> CreateConfigHandler() {
-        ConfigViewHandler handler = new ConfigViewHandler();
-
-        handler.onBack(() -> showDefaultView(null));
-        handler.onSave(this::onSaveConfigs);
-
-        return handler;
-    }
-
     private void onSavePosition() {
         new SavePositionOperation(fileStore, defaultHandler::getState).run();
         showListView();
     }
 
     private void onDeletePosition(PlayerPosition position) {
-        new DeletePositionOperation(fileStore, () -> position.getId()).run();
+        new DeletePositionOperation(fileStore, position::getId).run();
         showListView();
     }
 
@@ -99,11 +73,6 @@ public class SaveCoordinatesGui implements IModGui {
         new PingPositionOperation(fileStore, () -> position).run();
     }
 
-    private void onSaveConfigs() {
-        new SaveConfigsOperation(keyBindConfiguration, configHandler::getState).run();
-        showDefaultView(null);
-    }
-
     private void showDefaultView(PlayerPosition position) {
         screenController.openScreen(this.defaultHandler.createView(position));
     }
@@ -111,9 +80,4 @@ public class SaveCoordinatesGui implements IModGui {
     private void showListView() {
         screenController.openScreen(this.listHandler.createView(null));
     }
-
-    private void showConfigView() {
-        screenController.openScreen(createConfigScreen());
-    }
-
 }

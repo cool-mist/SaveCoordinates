@@ -25,7 +25,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     private WButton listButton;
     private WButton pingButton;
     private WButton closeButton;
-    private WButton configButton;
 
     public DefaultViewHandler(IFileStore fileStore, IPlayerLocator locator) {
         this.fileStore = fileStore;
@@ -35,7 +34,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         this.saveButton = CreateButton("SAVE");
         this.pingButton = CreatePingButton();
         this.closeButton = CreateButton("CLOSE");
-        this.configButton = CreateButton("CONF");
     }
 
     @Override
@@ -76,7 +74,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         root.add(listButton, 13, 9, 2, 1);
         root.add(pingButton, 13, 1, 1, 1);
         root.add(closeButton, 0, 9, 2, 1);
-        root.add(configButton, 10, 9, 2, 1);
 
         return createPlayerPositionSupplier(existingPosition, rawPosition, world, location, notes);
     }
@@ -95,10 +92,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     
     public void onPing(Runnable runnable) {
         this.pingButton.setOnClick(runnable);
-    }
-    
-    public void onConfig(Runnable runnable) {
-        this.configButton.setOnClick(runnable);
     }
 
     private Supplier<PlayerPosition> createPlayerPositionSupplier(PlayerPosition existingPosition,

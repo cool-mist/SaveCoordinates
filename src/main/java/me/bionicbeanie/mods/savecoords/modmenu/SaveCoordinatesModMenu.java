@@ -7,8 +7,4 @@ import me.bionicbeanie.mods.savecoords.gui.impl.ModDI;
 
 public class SaveCoordinatesModMenu implements ModMenuApi {
 
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ModDI.getModMenuScreenFactory();
-    }
 }
