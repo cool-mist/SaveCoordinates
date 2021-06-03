@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ibm.icu.impl.locale.LocaleDistance.Data;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
