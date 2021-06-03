@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ibm.icu.impl.locale.LocaleDistance.Data;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
@@ -52,8 +53,7 @@ class FileStore implements IFileStore {
     public ConfigData readConfigData() throws IOException {
         ModData data = load();
         
-        ConfigData ret = data.getConfigData();
-        return ret != null ? ret : new ConfigData();
+        return data.getConfigData();
     }
 
 
@@ -117,12 +117,32 @@ class FileStore implements IFileStore {
     private ModData load() throws IOException {
         List<String> lines = Files.readAllLines(saveFilePath);
         try {
-            return gson.fromJson(String.join("", lines), ModData.class);
+            ModData data =  gson.fromJson(String.join("", lines), ModData.class);
+            
+            if(data == null) {
+                data = new ModData();
+            }
+            
+            if(data.getDefaultWorldName() == null) {
+                data.setDefaultWorldName("");
+            }
+            
+            if(data.getPositions() == null) {
+                data.setPositions(new PlayerPosition[] {});
+            }
+            
+            if(data.getConfigData() == null) {
+                data.setConfigData(new ConfigData());
+            }
+            
+            return data;
+            
         } catch (Exception e) {
             // Fallback for old versions
             ModData data = new ModData();
             data.setDefaultWorldName("");
             data.setPositions(gson.fromJson(String.join("", lines), PlayerPosition[].class));
+            data.setConfigData(new ConfigData());
 
             dump(data);
 
