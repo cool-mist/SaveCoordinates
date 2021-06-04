@@ -13,11 +13,13 @@ import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import me.bionicbeanie.mods.savecoords.IFileStore;
+import me.bionicbeanie.mods.savecoords.TranslationKeys;
 import me.bionicbeanie.mods.savecoords.gui.IRootPanel;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import me.bionicbeanie.mods.savecoords.util.ResourceUtils;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 class ListViewHandler extends ViewHandlerBase<Void> {
@@ -54,19 +56,19 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     }
 
     private WButton createBackButton() {
-        return new WButton(new LiteralText("BACK"));
+        return new WButton(new TranslatableText(TranslationKeys.MENU_BACK));
     }
 
     private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPane(List<PlayerPosition> positions) {
         BiConsumer<PlayerPosition, CoordinatesListItemPanel> configurator = (pos, p) -> p.setPosition(pos, fileStore);
-        WListPanel<PlayerPosition, CoordinatesListItemPanel> panel = CreateListPanel(positions, configurator);
+        WListPanel<PlayerPosition, CoordinatesListItemPanel> panel = createListPanel(positions, configurator);
 
         panel.setListItemHeight(2 * 18);
 
         return panel;
     }
 
-    private WListPanel<PlayerPosition, CoordinatesListItemPanel> CreateListPanel(List<PlayerPosition> positions,
+    private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPanel(List<PlayerPosition> positions,
             BiConsumer<PlayerPosition, CoordinatesListItemPanel> config) {
         return new WListPanel<>(positions, this::createListPanel, config);
     }

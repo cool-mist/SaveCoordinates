@@ -1,0 +1,14 @@
+{
+    "key.savecoords.default": "Open GUI",
+    "key.savecoords.ping": "Beam Location",
+    "category.savecoords.default": "Generic",
+    "menu.savecoords.save": "SAVE",
+    "menu.savecoords.reset": "RESET",
+    "menu.savecoords.back": "BACK",
+    "menu.savecoords.close": "CLOSE",
+    "menu.savecoords.list": "LIST",
+    "menu.savecoords.conf": "CONF",
+    "menu.savecoords.location": "location name",
+    "menu.savecoords.notes": "additional notes",
+    "menu.savecoords.world_name": "world name"
+}

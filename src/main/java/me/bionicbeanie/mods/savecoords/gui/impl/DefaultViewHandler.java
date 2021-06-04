@@ -10,12 +10,14 @@ import io.github.cottonmc.cotton.gui.widget.WTextField;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
+import me.bionicbeanie.mods.savecoords.TranslationKeys;
 import me.bionicbeanie.mods.savecoords.gui.IRootPanel;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import me.bionicbeanie.mods.savecoords.model.PositionMetadata;
 import me.bionicbeanie.mods.savecoords.util.ResourceUtils;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 
 class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
 
@@ -31,11 +33,11 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         this.fileStore = fileStore;
         this.locator = locator;
 
-        this.listButton = CreateButton("LIST");
-        this.saveButton = CreateButton("SAVE");
+        this.listButton = CreateButton(TranslationKeys.MENU_LIST);
+        this.saveButton = CreateButton(TranslationKeys.MENU_SAVE);
         this.pingButton = CreatePingButton();
-        this.closeButton = CreateButton("CLOSE");
-        this.configButton = CreateButton("CONF");
+        this.closeButton = CreateButton(TranslationKeys.MENU_CLOSE);
+        this.configButton = CreateButton(TranslationKeys.MENU_CONF);
     }
 
     @Override
@@ -151,7 +153,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateLocationField(PlayerPosition existingPosition) {
-        WTextField location = new WTextField(new LiteralText("location name"));
+        WTextField location = new WTextField(new TranslatableText(TranslationKeys.MENU_LOCATION));
 
         if (existingPosition != null) {
             location.setText(existingPosition.getLocationName());
@@ -163,7 +165,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateNotesField(PlayerPosition existingPosition) {
-        WTextField notes = new WTextField(new LiteralText("additional notes"));
+        WTextField notes = new WTextField(new TranslatableText(TranslationKeys.MENU_NOTES));
 
         if (existingPosition != null && existingPosition.getPositionMetadata() != null) {
             notes.setText(existingPosition.getPositionMetadata().getNotes());
@@ -173,7 +175,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateWorldField(String defaultWorld) {
-        WTextField world = new WTextField(new LiteralText("world name"));
+        WTextField world = new WTextField(new TranslatableText(TranslationKeys.MENU_WORLD_NAME));
         world.setMaxLength(7);
         world.setText(defaultWorld);
         return world;
@@ -185,7 +187,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         return button;
     }
 
-    private WButton CreateButton(String name) {
-        return new WButton(new LiteralText(name));
+    private WButton CreateButton(String translationKey) {
+        return new WButton(new TranslatableText(translationKey));
     }
 }

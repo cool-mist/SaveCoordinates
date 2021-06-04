@@ -1,14 +1,14 @@
 package me.bionicbeanie.mods.savecoords.gui.impl;
 
-import java.io.IOException;
+import java.util.List;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
+import me.bionicbeanie.mods.savecoords.IKeyBinds;
+import me.bionicbeanie.mods.savecoords.IKeyBinds.IKeyBinding;
 import me.bionicbeanie.mods.savecoords.IModGui;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.gui.IGuiController;
-import me.bionicbeanie.mods.savecoords.gui.IKeyBindConfiguration;
 import me.bionicbeanie.mods.savecoords.gui.IViewHandler;
-import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,15 +19,14 @@ public class SaveCoordinatesGui implements IModGui {
     private IFileStore fileStore;
     private IViewHandler<PlayerPosition> defaultHandler;
     private IViewHandler<Void> listHandler;
-    private IViewHandler<ConfigData> configHandler;
+    private IViewHandler<List<IKeyBinding>> configHandler;
     private IPlayerLocator locator;
-    private IKeyBindConfiguration keyBindConfiguration;
+    private IKeyBinds keyBinds;
 
-    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IKeyBindConfiguration keyBindConfiguration,
-            IGuiController screenController) {
+    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IKeyBinds binds, IGuiController screenController) {
         this.screenController = screenController;
         this.fileStore = fileStore;
-        this.keyBindConfiguration = keyBindConfiguration;
+        this.keyBinds = binds;
         this.locator = locator;
 
         this.defaultHandler = CreateDefaultViewHandler();
@@ -42,13 +41,7 @@ public class SaveCoordinatesGui implements IModGui {
     }
 
     private Screen createConfigScreen() {
-        try {
-            return this.configHandler.createView(fileStore.readConfigData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return this.configHandler.createView(keyBinds.getAllBinds());
     }
 
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
@@ -72,7 +65,7 @@ public class SaveCoordinatesGui implements IModGui {
         return handler;
     }
 
-    private IViewHandler<ConfigData> CreateConfigHandler() {
+    private IViewHandler<List<IKeyBinding>> CreateConfigHandler() {
         ConfigViewHandler handler = new ConfigViewHandler();
 
         handler.onBack(() -> showDefaultView(null));
@@ -100,7 +93,7 @@ public class SaveCoordinatesGui implements IModGui {
     }
 
     private void onSaveConfigs() {
-        new SaveConfigsOperation(keyBindConfiguration, configHandler::getState).run();
+        new SaveConfigsOperation(keyBinds, fileStore, configHandler::getState).run();
         showDefaultView(null);
     }
 
