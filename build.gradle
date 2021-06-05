@@ -39,6 +39,9 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+    
+    exclude("**/icon.pdn")
+    exclude("**/icon400.png")
 }
 
 test {
