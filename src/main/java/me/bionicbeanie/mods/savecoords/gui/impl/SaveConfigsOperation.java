@@ -9,6 +9,7 @@ import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IKeyBinds.IKeyBinding;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.ConfigData.Config;
+import net.minecraft.client.util.InputUtil.Type;
 
 public class SaveConfigsOperation extends ViewOperationBase<List<IKeyBinding>>{
 
@@ -29,7 +30,7 @@ public class SaveConfigsOperation extends ViewOperationBase<List<IKeyBinding>>{
         for (IKeyBinding binding : state) {
             Config config = new Config();
             config.setName(binding.getName());
-            config.setType(binding.getType());
+            config.setType(parseTypeInt(binding.getType()));
             config.setCode(binding.getCode());
             
             keyBinds.updateKeyBind(binding.getName(), binding.getType(), binding.getCode());
@@ -40,5 +41,13 @@ public class SaveConfigsOperation extends ViewOperationBase<List<IKeyBinding>>{
         configData.setKeyConfigs(configsToWrite.toArray(new Config[] {}));
         
         fileStore.writeConfigs(configData);
+    }
+
+    private int parseTypeInt(Type type) {
+        if(type == Type.KEYSYM) {
+            return 0;
+        }
+        
+        return 1;
     }
 }

@@ -2,8 +2,6 @@ package me.bionicbeanie.mods.savecoords.model;
 
 import org.lwjgl.glfw.GLFW;
 
-import net.minecraft.client.util.InputUtil.Type;
-
 public class ConfigData {
 
     private Config[] keyConfigs;
@@ -12,13 +10,15 @@ public class ConfigData {
     private int defaultKeyBindingCode;
     
     public ConfigData() {
-        this.defaultKeyBindingCode = GLFW.GLFW_KEY_H; //Default value
+        this.defaultKeyBindingCode = GLFW.GLFW_KEY_H;
     }
     
+    @Deprecated
     public void setDefaultKeyBindingCode(int defaultKeyBindingCode) {
         this.defaultKeyBindingCode = defaultKeyBindingCode;
     }
     
+    @Deprecated
     public int getDefaultKeyBindingCode() {
         return defaultKeyBindingCode;
     }
@@ -33,7 +33,7 @@ public class ConfigData {
 
     public static class Config{
         private String name;
-        private Type type;
+        private int type;
         private int code;
         
         public int getCode() {
@@ -42,10 +42,10 @@ public class ConfigData {
         public void setCode(int code) {
             this.code = code;
         }
-        public Type getType() {
+        public int getType() {
             return type;
         }
-        public void setType(Type type) {
+        public void setType(int type) {
             this.type = type;
         }
         public String getName() {

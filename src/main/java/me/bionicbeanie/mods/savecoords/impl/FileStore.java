@@ -44,31 +44,31 @@ class FileStore implements IFileStore {
     @Override
     public String readDefaultWorldName() throws IOException {
         ModData data = load();
-        
+
         return data.getDefaultWorldName();
     }
-    
+
     @Override
     public ConfigData readConfigData() throws IOException {
         ModData data = load();
-        
+
         return data.getConfigData();
     }
-
 
     @Override
     public void writeDefaultWorldName(String defaultWorldName) throws IOException {
         ModData data = load();
-        data.setDefaultWorldName(defaultWorldName);;
+        data.setDefaultWorldName(defaultWorldName);
+        ;
 
         dump(data);
     }
-    
+
     @Override
     public void writeConfigs(ConfigData configData) throws IOException {
         ModData data = load();
         data.setConfigData(configData);
-        
+
         dump(data);
     }
 
@@ -116,26 +116,30 @@ class FileStore implements IFileStore {
     private ModData load() throws IOException {
         List<String> lines = Files.readAllLines(saveFilePath);
         try {
-            ModData data =  gson.fromJson(String.join("", lines), ModData.class);
-            
-            if(data == null) {
+            ModData data = gson.fromJson(String.join("", lines), ModData.class);
+
+            if (data == null) {
                 data = new ModData();
             }
-            
-            if(data.getDefaultWorldName() == null) {
+
+            if (data.getDefaultWorldName() == null) {
                 data.setDefaultWorldName("");
             }
-            
-            if(data.getPositions() == null) {
+
+            if (data.getPositions() == null) {
                 data.setPositions(new PlayerPosition[] {});
             }
-            
-            if(data.getConfigData() == null) {
+
+            if (data.getConfigData() == null) {
                 data.setConfigData(new ConfigData());
             }
-            
+
+            if (data.getConfigData().getKeyConfigs() == null) {
+                data.getConfigData().setKeyConfigs(new ConfigData.Config[] {});
+            }
+
             return data;
-            
+
         } catch (Exception e) {
             // Fallback for old versions
             ModData data = new ModData();

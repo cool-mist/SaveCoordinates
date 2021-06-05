@@ -94,12 +94,10 @@ class KeyBinds implements IKeyBinds {
         public int getDefaultCode() {
             return defaultCode;
         }
-
-        public void setBoundKey(Type type, int code) {
-            super.setBoundKey(type.createFromCode(code));
-
-            this.type = type;
-            this.code = code;
+        
+        @Override
+        public boolean wasPressed() {
+            return super.wasPressed();
         }
 
         @Override
@@ -116,11 +114,24 @@ class KeyBinds implements IKeyBinds {
         public Text getNameLocalizedText() {
             return new TranslatableText(getTranslationKey());
         }
+        
+        @Override
+        public Text getBoundKeyLocalizedText() {
+            return super.getBoundKeyLocalizedText();
+        }
+        
+        void setBoundKey(Type type, int code) {
+            super.setBoundKey(type.createFromCode(code));
+
+            this.type = type;
+            this.code = code;
+        }
     }
 
     private void initialize() {
         try {
             ConfigData configData = fileStore.readConfigData();
+            
             Config[] configs = configData.getKeyConfigs();
 
             if (configs == null) {
@@ -129,7 +140,7 @@ class KeyBinds implements IKeyBinds {
 
             for (int i = 0; i < configs.length; ++i) {
                 String name = configs[i].getName();
-                Type type = configs[i].getType();
+                Type type = parseType(configs[i].getType());
                 int code = configs[i].getCode();
 
                 if (keyBinds.containsKey(name)) {
@@ -141,5 +152,13 @@ class KeyBinds implements IKeyBinds {
         }
         
         
+    }
+
+    private Type parseType(int type) {
+        if(type == 0) {
+            return Type.KEYSYM;
+        }
+        
+        return Type.MOUSE;
     }
 }
