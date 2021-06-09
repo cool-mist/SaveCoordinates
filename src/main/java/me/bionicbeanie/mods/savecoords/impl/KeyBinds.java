@@ -14,7 +14,7 @@ import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.TranslationKeys;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
 import me.bionicbeanie.mods.savecoords.model.ConfigData.Config;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.InputUtil.Type;
 import net.minecraft.text.Text;
