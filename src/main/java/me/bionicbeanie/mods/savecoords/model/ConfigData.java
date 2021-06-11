@@ -33,7 +33,7 @@ public class ConfigData {
 
     public static class Config{
         private String name;
-        private int type;
+        private String type;
         private int code;
         
         public int getCode() {
@@ -42,10 +42,10 @@ public class ConfigData {
         public void setCode(int code) {
             this.code = code;
         }
-        public int getType() {
+        public String getType() {
             return type;
         }
-        public void setType(int type) {
+        public void setType(String type) {
             this.type = type;
         }
         public String getName() {

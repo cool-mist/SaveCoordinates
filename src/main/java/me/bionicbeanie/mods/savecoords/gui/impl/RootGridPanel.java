@@ -6,6 +6,7 @@ import java.util.List;
 import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
+import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import me.bionicbeanie.mods.savecoords.gui.IRootPanel;
 
 class RootGridPanel extends WGridPanel implements IRootPanel{
@@ -15,6 +16,7 @@ class RootGridPanel extends WGridPanel implements IRootPanel{
     
     public RootGridPanel(GuiDescription guiDescription) {
         this(18);
+        setInsets(Insets.ROOT_PANEL);
         
         this.guiDescription = guiDescription;
     }

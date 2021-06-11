@@ -81,10 +81,11 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         try {
             List<PlayerPosition> positions = fileStore.listPositions();
             Collections.sort(positions, (p1, p2) -> {
-                if(p1.getPositionMetadata() != null && p2.getPositionMetadata() != null) {
-                    return p2.getPositionMetadata().getLastModified().compareTo(p1.getPositionMetadata().getLastModified());
+                if (p1.getPositionMetadata() != null && p2.getPositionMetadata() != null) {
+                    return p2.getPositionMetadata().getLastModifiedMillis() > p1.getPositionMetadata().getLastModifiedMillis() ? 1
+                            : 0;
                 }
-                
+
                 return -1;
             });
             return positions;
@@ -155,11 +156,11 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.icon.setImage(ResourceUtils.CreateWorldIconIdentifier(position.getWorldDimension()));
             this.location.setText(new LiteralText(position.getLocationName()));
             this.location.setColor(0x3939ac);
-            if(position.getPositionMetadata() != null) {
+            if (position.getPositionMetadata() != null) {
                 this.world.setText(new LiteralText("[" + position.getPositionMetadata().getWorldName() + "]"));
                 this.world.setColor(0xb80000);
             }
-            
+
             this.coordinates
                     .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.deleteButton.setOnClick(() -> onDelete.accept(position));

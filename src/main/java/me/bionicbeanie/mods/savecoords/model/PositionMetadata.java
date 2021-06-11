@@ -1,17 +1,15 @@
 package me.bionicbeanie.mods.savecoords.model;
 
-import java.time.LocalDateTime;
-
 public class PositionMetadata {
 
     private String worldName, notes;
-    private LocalDateTime created, lastModified;
+    private long createdMillis, lastModifiedMillis;
 
     public PositionMetadata(String worldName, String notes) {
         this.worldName = worldName;
         this.notes = notes;
-        this.created = LocalDateTime.now();
-        this.lastModified = this.created;
+        this.createdMillis = System.currentTimeMillis();
+        this.lastModifiedMillis = this.createdMillis;
     }
 
     public String getWorldName() {
@@ -30,15 +28,15 @@ public class PositionMetadata {
         this.notes = notes;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
+    public long getCreatedMillis() {
+        return createdMillis;
     }
 
-    public LocalDateTime getLastModified() {
-        return lastModified;
+    public long getLastModifiedMillis() {
+        return lastModifiedMillis;
     }
 
     public void updateLastModified() {
-        this.lastModified = LocalDateTime.now();
+        this.lastModifiedMillis = System.currentTimeMillis();
     }
 }

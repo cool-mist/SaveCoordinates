@@ -154,8 +154,8 @@ class KeyBinds implements IKeyBinds {
         
     }
 
-    private Type parseType(int type) {
-        if(type == 0) {
+    private Type parseType(String type) {
+        if("KEYSYM".equalsIgnoreCase(type)) {
             return Type.KEYSYM;
         }
         

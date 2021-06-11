@@ -30,7 +30,7 @@ public class SaveConfigsOperation extends ViewOperationBase<List<IKeyBinding>>{
         for (IKeyBinding binding : state) {
             Config config = new Config();
             config.setName(binding.getName());
-            config.setType(parseTypeInt(binding.getType()));
+            config.setType(parseTypeString(binding.getType()));
             config.setCode(binding.getCode());
             
             keyBinds.updateKeyBind(binding.getName(), binding.getType(), binding.getCode());
@@ -43,11 +43,11 @@ public class SaveConfigsOperation extends ViewOperationBase<List<IKeyBinding>>{
         fileStore.writeConfigs(configData);
     }
 
-    private int parseTypeInt(Type type) {
+    private String parseTypeString(Type type) {
         if(type == Type.KEYSYM) {
-            return 0;
+            return "KEYSYM";
         }
         
-        return 1;
+        return "MOUSE";
     }
 }

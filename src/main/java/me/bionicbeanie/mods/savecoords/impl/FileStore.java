@@ -28,7 +28,7 @@ class FileStore implements IFileStore {
     private Gson gson;
 
     public FileStore(String baseDir) {
-        this.gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+        this.gson = new GsonBuilder().setPrettyPrinting().setLenient(). create();
         this.saveFilePath = Paths.get(baseDir, DEFAULT_DIR, DEFAULT_FILE);
 
         try {
@@ -141,15 +141,7 @@ class FileStore implements IFileStore {
             return data;
 
         } catch (Exception e) {
-            // Fallback for old versions
-            ModData data = new ModData();
-            data.setDefaultWorldName("");
-            data.setPositions(gson.fromJson(String.join("", lines), PlayerPosition[].class));
-            data.setConfigData(new ConfigData());
-
-            dump(data);
-
-            return data;
+            throw e;
         }
     }
 
