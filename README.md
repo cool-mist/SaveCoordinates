@@ -6,12 +6,10 @@
 
 ## Dependencies
 
-Item|Minimum version|Requirement
--|-|-
-Java|1.8
-Minecraft|1.16.5
-[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) | 0.34.2+1.16
-[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) | 1.16.9| Optional
+Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files)|[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) (optional)
+--|--|--
+1.16.5|0.34.2+1.16+|1.16.9+
+1.17|0.34.9+1.17+|2.0.0-beta.7+
 
 ## Usage
 
@@ -20,4 +18,4 @@ Minecraft|1.16.5
 - Select `SAVE` to save the coordinate
 - Select `PING` to ping the coordinate to other players
 - Select `LIST` to view saved coordinates
-- Select `CONF` to update configs. Reachable through mod menu as well when mod menu is installed
+- Select `CONF` to update configs. Reachable through mod menu as well when available
