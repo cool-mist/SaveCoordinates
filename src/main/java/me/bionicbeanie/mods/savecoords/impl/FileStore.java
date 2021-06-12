@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.model.ConfigData;
+import me.bionicbeanie.mods.savecoords.model.ConfigData.Config;
 import me.bionicbeanie.mods.savecoords.model.ModData;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 
@@ -28,7 +29,11 @@ class FileStore implements IFileStore {
     private Gson gson;
 
     public FileStore(String baseDir) {
-        this.gson = new GsonBuilder().setPrettyPrinting().setLenient(). create();
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(Config.class, new ConfigData.ConfigDeserializer())
+                .setPrettyPrinting()
+                .setLenient().create();
+        
         this.saveFilePath = Paths.get(baseDir, DEFAULT_DIR, DEFAULT_FILE);
 
         try {
@@ -59,7 +64,6 @@ class FileStore implements IFileStore {
     public void writeDefaultWorldName(String defaultWorldName) throws IOException {
         ModData data = load();
         data.setDefaultWorldName(defaultWorldName);
-        ;
 
         dump(data);
     }

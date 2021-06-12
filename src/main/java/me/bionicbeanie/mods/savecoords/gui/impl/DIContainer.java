@@ -1,11 +1,14 @@
 package me.bionicbeanie.mods.savecoords.gui.impl;
 
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IModGui;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.impl.Factory;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 
 //All of this works because single-threaded initialization!! Sed lyf :(
 public class DIContainer {
@@ -16,7 +19,7 @@ public class DIContainer {
     private static IPlayerLocator playerLocator;
     private static IModGui modGui;
     private static IKeyBinds keyBinds;
-    //private static ConfigScreenFactory<Screen> modMenuScreenFactory;
+    private static ConfigScreenFactory<Screen> modMenuScreenFactory;
     private static PingPositionOperation pingPositionOperation;
 
     public static IModGui getModGui() {
@@ -29,25 +32,25 @@ public class DIContainer {
         return keyBinds;
     }
 
-//    public static ConfigScreenFactory<Screen> getModMenuScreenFactory() {
-//        initialize();
-//
-//        if (modMenuScreenFactory == null) {
-//            modMenuScreenFactory = (parent) -> {
-//                ConfigViewHandler handler = new ConfigViewHandler();
-//
-//                handler.onSave(() -> {
-//                    new SaveConfigsOperation(keyBinds, fileStore, handler::getState).run();
-//                    guiController.closeScreen();
-//                });
-//
-//                handler.onBack(() -> guiController.closeScreen());
-//
-//                return handler.createView(keyBinds.getAllBinds());
-//            };
-//        }
-//        return modMenuScreenFactory;
-//    }
+    public static ConfigScreenFactory<Screen> getModMenuScreenFactory() {
+        initialize();
+
+        if (modMenuScreenFactory == null) {
+            modMenuScreenFactory = (parent) -> {
+                ConfigViewHandler handler = new ConfigViewHandler();
+
+                handler.onSave(() -> {
+                    new SaveConfigsOperation(keyBinds, fileStore, handler::getState).run();
+                    guiController.closeScreen();
+                });
+
+                handler.onBack(() -> guiController.closeScreen());
+
+                return handler.createView(keyBinds.getAllBinds());
+            };
+        }
+        return modMenuScreenFactory;
+    }
     
     public static Runnable getPingPositionOperation() {
         initialize();

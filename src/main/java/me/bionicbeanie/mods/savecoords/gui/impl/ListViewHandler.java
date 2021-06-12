@@ -82,8 +82,8 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             List<PlayerPosition> positions = fileStore.listPositions();
             Collections.sort(positions, (p1, p2) -> {
                 if (p1.getPositionMetadata() != null && p2.getPositionMetadata() != null) {
-                    return p2.getPositionMetadata().getLastModifiedMillis() > p1.getPositionMetadata().getLastModifiedMillis() ? 1
-                            : 0;
+                    return p2.getPositionMetadata().getLastModifiedMillis() > p1.getPositionMetadata()
+                            .getLastModifiedMillis() ? 1 : -1;
                 }
 
                 return -1;
