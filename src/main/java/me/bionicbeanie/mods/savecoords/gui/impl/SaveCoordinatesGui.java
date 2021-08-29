@@ -32,7 +32,6 @@ public class SaveCoordinatesGui implements IModGui {
         this.defaultHandler = CreateDefaultViewHandler();
         this.listHandler = CreateListViewHandler();
         this.configHandler = CreateConfigHandler();
-
     }
 
     @Override
@@ -40,27 +39,23 @@ public class SaveCoordinatesGui implements IModGui {
         showDefaultView(null);
     }
 
-    private Screen createConfigScreen() {
-        return this.configHandler.createView(keyBinds.getAllBinds());
-    }
-
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
         DefaultViewHandler handler = new DefaultViewHandler(fileStore, locator);
 
-        handler.onSave(this::onSavePosition);
-        handler.onList(this::showListView);
-        handler.onConfig(this::showConfigView);
-        handler.onPing(new PingPositionOperation(fileStore, locator::locate));
-        handler.onClose(screenController::closeScreen);
+        handler.onSaveButtonClick(this::savePosition);
+        handler.onListButtonClick(this::showListView);
+        handler.onConfigButtonClick(this::showConfigView);
+        handler.onPingButtonClick(this::pingPosition);
+        handler.onCloseButtonClick(screenController::closeScreen);
 
         return handler;
     }
 
     private IViewHandler<Void> CreateListViewHandler() {
         ListViewHandler handler = new ListViewHandler(fileStore, this::onDeletePosition, this::onEditPosition,
-                this::onPingPosition);
+                this::pingPosition);
 
-        handler.onBack(() -> showDefaultView(null));
+        handler.onBackButtonClick(() -> showDefaultView(null));
 
         return handler;
     }
@@ -68,19 +63,21 @@ public class SaveCoordinatesGui implements IModGui {
     private IViewHandler<List<IKeyBinding>> CreateConfigHandler() {
         ConfigViewHandler handler = new ConfigViewHandler();
 
-        handler.onBack(() -> showDefaultView(null));
-        handler.onSave(this::onSaveConfigs);
+        handler.onBackButtonClick(() -> showDefaultView(null));
+        handler.onSaveButtonClick(this::saveConfigs);
 
         return handler;
     }
 
-    private void onSavePosition() {
-        new SavePositionOperation(fileStore, defaultHandler::getState).run();
-        showListView();
+    private void savePosition() {
+        ErrorResponse response = new SavePositionOperation(fileStore, defaultHandler::getState).call();
+        if (!response.isFailed()) {
+            showListView();
+        }
     }
 
     private void onDeletePosition(PlayerPosition position) {
-        new DeletePositionOperation(fileStore, () -> position.getId()).run();
+        new DeletePositionOperation(fileStore, position::getId).call();
         showListView();
     }
 
@@ -88,12 +85,16 @@ public class SaveCoordinatesGui implements IModGui {
         showDefaultView(position);
     }
 
-    private void onPingPosition(PlayerRawPosition position) {
-        new PingPositionOperation(fileStore, () -> position).run();
+    private void pingPosition() {
+        new PingPositionOperation(fileStore, locator::locate).call();
     }
 
-    private void onSaveConfigs() {
-        new SaveConfigsOperation(keyBinds, fileStore, configHandler::getState).run();
+    private void pingPosition(PlayerRawPosition position) {
+        new PingPositionOperation(fileStore, () -> position).call();
+    }
+
+    private void saveConfigs() {
+        new SaveConfigsOperation(keyBinds, fileStore, configHandler::getState).call();
         showDefaultView(null);
     }
 
@@ -109,4 +110,7 @@ public class SaveCoordinatesGui implements IModGui {
         screenController.openScreen(createConfigScreen());
     }
 
+    private Screen createConfigScreen() {
+        return this.configHandler.createView(keyBinds.getAllBinds());
+    }
 }

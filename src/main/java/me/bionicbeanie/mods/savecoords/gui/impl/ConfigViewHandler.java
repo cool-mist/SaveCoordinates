@@ -101,13 +101,13 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
         });
     }
 
-    void onBack(Runnable runnable) {
+    void onBackButtonClick(Runnable runnable) {
         this.backButton.setOnClick(() -> {
             runnable.run();
         });
     }
 
-    void onSave(Runnable runnable) {
+    void onSaveButtonClick(Runnable runnable) {
         this.saveButton.setOnClick(() -> {
             this.shouldNotUpdateBinding = true;
             if(this.focussingConfig != null) {

@@ -51,7 +51,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         return () -> (Void) null;
     }
 
-    public void onBack(Runnable runnable) {
+    public void onBackButtonClick(Runnable runnable) {
         this.backButton.setOnClick(runnable);
     }
 
@@ -123,8 +123,8 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.pingButton = new WButton(new LiteralText(""));
             this.detailButton = new WButton(new LiteralText(""));
 
-            this.pingButton.setIcon(ResourceUtils.CreatePingIcon());
-            this.detailButton.setIcon(ResourceUtils.CreateDetailsIcon());
+            this.pingButton.setIcon(ResourceUtils.createPingIcon());
+            this.detailButton.setIcon(ResourceUtils.createDetailsIcon());
 
             this.add(icon, 0, 0, 1 * 9, 1 * 9);
             this.add(world, 1 * 18, 0, 3 * 18, 1 * 18);
@@ -147,13 +147,13 @@ class ListViewHandler extends ViewHandlerBase<Void> {
 
         private WButton createDeleteButton() {
             TexturedButton button = new TexturedButton(new LiteralText("x"));
-            button.setTexture(ResourceUtils.CreateIdentifier("close"));
+            button.setTexture(ResourceUtils.getIdentifier("close"));
 
             return button;
         }
 
         void setPosition(PlayerPosition position, IFileStore fileStore) {
-            this.icon.setImage(ResourceUtils.CreateWorldIconIdentifier(position.getWorldDimension()));
+            this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
             this.location.setText(new LiteralText(position.getLocationName()));
             this.location.setColor(0x3939ac);
             if (position.getPositionMetadata() != null) {

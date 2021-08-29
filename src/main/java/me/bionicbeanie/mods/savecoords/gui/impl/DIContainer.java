@@ -39,12 +39,12 @@ public class DIContainer {
             modMenuScreenFactory = (parent) -> {
                 ConfigViewHandler handler = new ConfigViewHandler();
 
-                handler.onSave(() -> {
-                    new SaveConfigsOperation(keyBinds, fileStore, handler::getState).run();
+                handler.onSaveButtonClick(() -> {
+                    new SaveConfigsOperation(keyBinds, fileStore, handler::getState).call();
                     guiController.closeScreen();
                 });
 
-                handler.onBack(() -> guiController.closeScreen());
+                handler.onBackButtonClick(() -> guiController.closeScreen());
 
                 return handler.createView(keyBinds.getAllBinds());
             };
@@ -54,7 +54,13 @@ public class DIContainer {
     
     public static Runnable getPingPositionOperation() {
         initialize();
-        return pingPositionOperation;
+        return () -> {
+            try {
+                pingPositionOperation.call();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
     }
 
     private static void initialize() {

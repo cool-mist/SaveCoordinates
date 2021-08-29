@@ -1,45 +1,31 @@
 package me.bionicbeanie.mods.savecoords.util;
 
 import io.github.cottonmc.cotton.gui.widget.WSprite;
-import io.github.cottonmc.cotton.gui.widget.WWidget;
 import io.github.cottonmc.cotton.gui.widget.icon.Icon;
 import io.github.cottonmc.cotton.gui.widget.icon.TextureIcon;
 import net.minecraft.util.Identifier;
 
 public class ResourceUtils {
 
-    public static WWidget CreateWorldIcon(String dimension) {
-        return new WSprite(CreateWorldIconIdentifier(dimension));
+    private static IdentifiersCache cache = new IdentifiersCache();
+    
+    public static WSprite createWorldIcon(String dimension) {
+        return new WSprite(getIdentifier(dimension));
     }
 
-    public static Identifier CreateWorldIconIdentifier(String dimension) {
-
-        if (dimension == null)
-            return CreateIdentifier("nonexistent");
-        if (dimension.contains("overworld"))
-            return CreateIdentifier("overworld");
-        if (dimension.contains("nether"))
-            return CreateIdentifier("nether");
-        if (dimension.contains("end"))
-            return CreateIdentifier("end");
-
-        return CreateIdentifier("nonexistent");
-
+    public static Identifier getIdentifier(String resourceName) {
+        return cache.get(resourceName);
     }
 
-    public static Icon CreatePingIcon() {
-        return new TextureIcon(CreateIdentifier("ping"));
+    public static Icon createPingIcon() {
+        return new TextureIcon(cache.get("ping"));
     }
 
-    public static Icon CreateCloseIcon() {
-        return new TextureIcon(CreateIdentifier("close"));
+    public static Icon createCloseIcon() {
+        return new TextureIcon(cache.get("close"));
     }
 
-    public static Icon CreateDetailsIcon() {
-        return new TextureIcon(CreateIdentifier("more"));
-    }
-
-    public static Identifier CreateIdentifier(String file) {
-        return new Identifier("savecoords", "textures/gui/" + file + ".png");
+    public static Icon createDetailsIcon() {
+        return new TextureIcon(cache.get("more"));
     }
 }
