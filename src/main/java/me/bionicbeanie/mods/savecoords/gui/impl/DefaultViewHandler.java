@@ -4,10 +4,10 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 import io.github.cottonmc.cotton.gui.widget.WButton;
-import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
+import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.TranslationKeys;
@@ -15,7 +15,6 @@ import me.bionicbeanie.mods.savecoords.gui.IRootPanel;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import me.bionicbeanie.mods.savecoords.model.PositionMetadata;
-import me.bionicbeanie.mods.savecoords.util.DimensionKeys;
 import me.bionicbeanie.mods.savecoords.util.ResourceUtils;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
@@ -29,10 +28,12 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     private WButton pingButton;
     private WButton closeButton;
     private WButton configButton;
+    private IDimensionAware dimensionAware;
 
-    public DefaultViewHandler(IFileStore fileStore, IPlayerLocator locator) {
+    public DefaultViewHandler(IFileStore fileStore, IPlayerLocator locator, IDimensionAware dimensionAware) {
         this.fileStore = fileStore;
         this.locator = locator;
+        this.dimensionAware = dimensionAware;
 
         this.listButton = CreateButton(TranslationKeys.MENU_LIST);
         this.saveButton = CreateButton(TranslationKeys.MENU_SAVE);
@@ -53,7 +54,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         WTextField xText = CreateWidgetForCoordinate(rawPosition.getX());
         WTextField yText = CreateWidgetForCoordinate(rawPosition.getY());
         WTextField zText = CreateWidgetForCoordinate(rawPosition.getZ());
-        
+
         root.add(xLabel, 0, 1, 1, 1);
         root.add(yLabel, 0, 2, 1, 1);
         root.add(zLabel, 0, 3, 1, 1);
@@ -61,22 +62,22 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         root.add(xText, 1, 1, 6, 1);
         root.add(yText, 1, 2, 6, 1);
         root.add(zText, 1, 3, 6, 1);
-        
-        WSprite worldIcon = ResourceUtils.createWorldIcon(getDimension(rawPosition));
-        root.add(worldIcon, 9, 1, 2, 2);
-        
-        WWidget worldButton = CreateWorldButton(worldIcon);
-        root.add(worldButton, 8, 3, 4, 1);
+
+        DimensionSprite dimensionSprite = new DimensionSprite();
+        root.add(dimensionSprite, 9, 0, 2, 2);
+
+        DimensionButton dimensionButton = CreateDimensionButton(dimensionSprite, existingPosition);
+        root.add(dimensionButton, 8, 3, 4, 1);
 
         String defaultWorldName = getDefaultWorldName(existingPosition);
-        WTextField world = CreateWorldField(defaultWorldName);
-        root.add(world, 0, 5, 4, 1);
+        WTextField worldNameField = CreateWorldField(defaultWorldName);
+        root.add(worldNameField, 0, 5, 4, 1);
 
-        WTextField location = CreateLocationField(existingPosition);
-        root.add(location, 5, 5, 7, 1);
+        WTextField locationField = CreateLocationField(existingPosition);
+        root.add(locationField, 5, 5, 7, 1);
 
-        WTextField notes = CreateNotesField(existingPosition);
-        root.add(notes, 0, 7, 12, 1);
+        WTextField notesField = CreateNotesField(existingPosition);
+        root.add(notesField, 0, 7, 12, 1);
 
         root.add(saveButton, 13, 7, 2, 1);
         root.add(listButton, 13, 9, 2, 1);
@@ -84,35 +85,19 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         root.add(closeButton, 0, 9, 2, 1);
         root.add(configButton, 10, 9, 2, 1);
 
-        return createPlayerPositionSupplier(existingPosition, xText, yText, zText, world, location, notes);
+        return createPlayerPositionSupplier(
+                existingPosition, 
+                xText, 
+                yText, 
+                zText, 
+                dimensionButton, 
+                worldNameField, 
+                locationField,
+                notesField);
     }
 
-    private WWidget CreateWorldButton(WSprite worldIcon) {
-        WButton button = new WButton(new LiteralText(DimensionKeys.OVERWORLD));
-        button.setOnClick(() -> button.setLabel(new LiteralText(DimensionKeys.NETHER)));
-        return button;
-    }
-
-    private String getDimension(PlayerRawPosition rawPosition) {
-        String dimensionIdentifier = rawPosition.getWorldDimension();
-        
-        if(isDimension(DimensionKeys.OVERWORLD, dimensionIdentifier)) {
-            return DimensionKeys.OVERWORLD;
-        }
-        
-        if(isDimension(DimensionKeys.NETHER, dimensionIdentifier)) {
-            return DimensionKeys.NETHER;
-        }
-        
-        if(isDimension(DimensionKeys.END, dimensionIdentifier)) {
-            return DimensionKeys.END;
-        }
-        
-        return DimensionKeys.UNKNOWN;
-    }
-
-    private boolean isDimension(String dimension, String dimensionIdentifier) {
-        return dimensionIdentifier != null && dimensionIdentifier.contains(dimension);
+    private DimensionButton CreateDimensionButton(WSprite worldIcon, PlayerRawPosition existingPosition) {
+        return new DimensionButton(worldIcon, dimensionAware, existingPosition);
     }
 
     public void onSaveButtonClick(Runnable runnable) {
@@ -135,17 +120,17 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
         this.configButton.setOnClick(runnable);
     }
 
-    private Supplier<PlayerPosition> createPlayerPositionSupplier(PlayerPosition existingPosition,
-            WTextField xText, WTextField yText, WTextField zText, WTextField world, 
-            WTextField location, WTextField notes) {
+    private Supplier<PlayerPosition> createPlayerPositionSupplier(PlayerPosition existingPosition, WTextField xText,
+            WTextField yText, WTextField zText, DimensionButton dimensionButton, WTextField world, WTextField location,
+            WTextField notes) {
 
         return () -> {
             String id = CreateId(existingPosition);
             long x = parseLong(xText);
             long y = parseLong(yText);
             long z = parseLong(zText);
-            
-            PlayerRawPosition rawPosition = new PlayerRawPosition(x, y, z, "overworld"); 
+
+            PlayerRawPosition rawPosition = new PlayerRawPosition(x, y, z, dimensionButton.getDimension().getName());
             PositionMetadata metadata = CreateMetadata(existingPosition, world, notes);
 
             return new PlayerPosition(id, rawPosition, location.getText(), metadata);
@@ -188,7 +173,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WWidget CreateLabelForCoordinate(String label) {
-        //return new WLabel(label, 0xb80000);
         WButton labelButton = new WButton(new LiteralText(label));
         labelButton.setEnabled(false);
         return labelButton;

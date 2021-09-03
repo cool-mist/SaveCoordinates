@@ -43,7 +43,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     public Supplier<Void> setupView(IRootPanel root, Void nullState) {
 
         List<PlayerPosition> positions = getPositions(fileStore);
-        WListPanel<PlayerPosition, CoordinatesListItemPanel> listPanel = createListPane(positions);
+        WListPanel<PlayerPosition, CoordinatesListItemPanel> listPanel = createListPanel(positions);
 
         root.add(listPanel, 0, 0, 15, 9);
         root.add(backButton, 0, 9, 2, 1);
@@ -59,7 +59,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         return new WButton(new TranslatableText(TranslationKeys.MENU_BACK));
     }
 
-    private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPane(List<PlayerPosition> positions) {
+    private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPanel(List<PlayerPosition> positions) {
         BiConsumer<PlayerPosition, CoordinatesListItemPanel> configurator = (pos, p) -> p.setPosition(pos, fileStore);
         WListPanel<PlayerPosition, CoordinatesListItemPanel> panel = createListPanel(positions, configurator);
 

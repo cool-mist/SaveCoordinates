@@ -18,6 +18,7 @@ class PlayerLocator implements IPlayerLocator {
         long x = Math.round(pos.x);
         long y = Math.round(pos.y);
         long z = Math.round(pos.z);
+        
         String worldDimension = client.player.getEntityWorld().getRegistryKey().getValue().toString();
 
         return new PlayerRawPosition(x, y, z, worldDimension);

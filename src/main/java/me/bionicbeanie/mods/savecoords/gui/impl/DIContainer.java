@@ -2,6 +2,7 @@ package me.bionicbeanie.mods.savecoords.gui.impl;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 
+import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IModGui;
@@ -21,6 +22,7 @@ public class DIContainer {
     private static IKeyBinds keyBinds;
     private static ConfigScreenFactory<Screen> modMenuScreenFactory;
     private static PingPositionOperation pingPositionOperation;
+    private static IDimensionAware dimensionAware;
 
     public static IModGui getModGui() {
         initialize();
@@ -72,7 +74,8 @@ public class DIContainer {
             guiController = new GuiController(minecraftClient);
             playerLocator = Factory.CreatePlayerLocator(minecraftClient);
             keyBinds = Factory.CreateKeyBinds(fileStore);
-            modGui = new SaveCoordinatesGui(fileStore, playerLocator, keyBinds, guiController);
+            dimensionAware = Factory.CreateDimensionAware(minecraftClient);
+            modGui = new SaveCoordinatesGui(fileStore, playerLocator, dimensionAware, keyBinds, guiController);
             
             pingPositionOperation = new PingPositionOperation(fileStore, () -> playerLocator.locate());
         }

@@ -2,6 +2,7 @@ package me.bionicbeanie.mods.savecoords.gui.impl;
 
 import java.util.List;
 
+import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IKeyBinds.IKeyBinding;
@@ -21,13 +22,16 @@ public class SaveCoordinatesGui implements IModGui {
     private IViewHandler<Void> listHandler;
     private IViewHandler<List<IKeyBinding>> configHandler;
     private IPlayerLocator locator;
+    private IDimensionAware dimensionAware;
     private IKeyBinds keyBinds;
 
-    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IKeyBinds binds, IGuiController screenController) {
+    SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IDimensionAware dimensionAware, IKeyBinds binds,
+            IGuiController screenController) {
         this.screenController = screenController;
         this.fileStore = fileStore;
         this.keyBinds = binds;
         this.locator = locator;
+        this.dimensionAware = dimensionAware;
 
         this.defaultHandler = CreateDefaultViewHandler();
         this.listHandler = CreateListViewHandler();
@@ -40,7 +44,7 @@ public class SaveCoordinatesGui implements IModGui {
     }
 
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
-        DefaultViewHandler handler = new DefaultViewHandler(fileStore, locator);
+        DefaultViewHandler handler = new DefaultViewHandler(fileStore, locator, dimensionAware);
 
         handler.onSaveButtonClick(this::savePosition);
         handler.onListButtonClick(this::showListView);

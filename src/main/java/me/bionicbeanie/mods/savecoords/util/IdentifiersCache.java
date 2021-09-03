@@ -21,7 +21,8 @@ public class IdentifiersCache {
     }
     
     public Identifier get(String resourceName) {
-        return cache.getOrDefault(resourceName, cache.get(DEFAULT));
+        String key = resourceName.toLowerCase();
+        return cache.getOrDefault(key, cache.get(DEFAULT));
     }
     
     private static void add(String resourceName, Map<String, Identifier> cache) {
