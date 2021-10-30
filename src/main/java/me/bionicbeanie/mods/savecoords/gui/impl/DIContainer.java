@@ -21,7 +21,7 @@ public class DIContainer {
     private static IModGui modGui;
     private static IKeyBinds keyBinds;
     private static ConfigScreenFactory<Screen> modMenuScreenFactory;
-    private static PingPositionOperation pingPositionOperation;
+    private static CurrentPositionPingOperation pingPositionOperation;
     private static IDimensionAware dimensionAware;
 
     public static IModGui getModGui() {
@@ -64,6 +64,10 @@ public class DIContainer {
             }
         };
     }
+    
+    public static boolean togglePingBehavior() {
+        return pingPositionOperation.toggleEnabled();
+    }
 
     private static void initialize() {
         if (!initialized) {
@@ -77,7 +81,7 @@ public class DIContainer {
             dimensionAware = Factory.CreateDimensionAware(minecraftClient);
             modGui = new SaveCoordinatesGui(fileStore, playerLocator, dimensionAware, keyBinds, guiController);
             
-            pingPositionOperation = new PingPositionOperation(fileStore, () -> playerLocator.locate());
+            pingPositionOperation = new CurrentPositionPingOperation(fileStore, () -> playerLocator.locate());
         }
     }
 }

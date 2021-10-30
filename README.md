@@ -16,7 +16,12 @@ Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/f
 
 - Press `H` to open menu
 - Press `B` to beam location
+- Press `N` to lock beaming
 - Select `SAVE` to save the coordinate
 - Select `PING` to ping the coordinate to other players
 - Select `LIST` to view saved coordinates
 - Select `CONF` to update configs. Reachable through mod menu as well when available
+
+## Discord
+
+https://discord.gg/9xnv2gQbJt

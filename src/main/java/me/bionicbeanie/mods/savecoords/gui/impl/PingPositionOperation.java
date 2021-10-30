@@ -6,7 +6,7 @@ import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import net.minecraft.client.MinecraftClient;
 
-class PingPositionOperation extends ViewOperationBase<PlayerRawPosition>{
+class PingPositionOperation extends ViewOperationBase<PlayerRawPosition> {
 
     public PingPositionOperation(IFileStore fileStore, Supplier<PlayerRawPosition> stateSupplier) {
         super(fileStore, stateSupplier);

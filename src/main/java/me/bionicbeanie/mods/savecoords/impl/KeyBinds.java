@@ -28,6 +28,9 @@ class KeyBinds implements IKeyBinds {
     KeyBindingEx PING = new KeyBindingEx(IKeyBinds.PING, TranslationKeys.KEYBIND_PING, InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_B, TranslationKeys.CATEGORY_GENERIC);
 
+    KeyBindingEx PING_LOCK = new KeyBindingEx(IKeyBinds.PING_LOCK, TranslationKeys.KEYBIND_PING_LOCK,
+            InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_N, TranslationKeys.CATEGORY_GENERIC);
+
     private IFileStore fileStore;
     private Map<String, KeyBindingEx> keyBinds;
     private List<IKeyBinding> unmodifiableList;
@@ -38,9 +41,10 @@ class KeyBinds implements IKeyBinds {
 
         add(DEFAULT);
         add(PING);
+        add(PING_LOCK);
 
         initialize();
-        
+
         this.unmodifiableList = Collections.unmodifiableList(new ArrayList<>(keyBinds.values()));
     }
 
@@ -84,17 +88,17 @@ class KeyBinds implements IKeyBinds {
         public Type getType() {
             return type;
         }
-        
+
         @Override
         public Type getDefaultType() {
             return defaultType;
         }
-        
+
         @Override
         public int getDefaultCode() {
             return defaultCode;
         }
-        
+
         @Override
         public boolean wasPressed() {
             return super.wasPressed();
@@ -109,17 +113,17 @@ class KeyBinds implements IKeyBinds {
         public String getName() {
             return name;
         }
-        
+
         @Override
         public Text getNameLocalizedText() {
             return new TranslatableText(getTranslationKey());
         }
-        
+
         @Override
         public Text getBoundKeyLocalizedText() {
             return super.getBoundKeyLocalizedText();
         }
-        
+
         void setBoundKey(Type type, int code) {
             super.setBoundKey(type.createFromCode(code));
 
@@ -131,7 +135,7 @@ class KeyBinds implements IKeyBinds {
     private void initialize() {
         try {
             ConfigData configData = fileStore.readConfigData();
-            
+
             Config[] configs = configData.getKeyConfigs();
 
             if (configs == null) {
@@ -150,15 +154,14 @@ class KeyBinds implements IKeyBinds {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        
+
     }
 
     private Type parseType(String type) {
-        if("KEYSYM".equalsIgnoreCase(type)) {
+        if ("KEYSYM".equalsIgnoreCase(type)) {
             return Type.KEYSYM;
         }
-        
+
         return Type.MOUSE;
     }
 }
