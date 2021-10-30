@@ -14,11 +14,11 @@ class GuiController implements IGuiController {
 
     @Override
     public void openScreen(Screen screen) {
-        client.openScreen(screen);
+        client.setScreen(screen);
     }
 
     @Override
     public void closeScreen() {
-        client.openScreen(null);
+        client.setScreen(null);
     }
 }
