@@ -6,8 +6,8 @@
 
 ## Dependencies
 
-Mod version|Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files)|[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) (optional)
---|--|--
+This mod|Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files)|[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) (optional)
+--|--|--|--
 1.16.5-1.1.0 |1.16.5|0.34.2+1.16+|1.16.9+
 1.17-1.1.1 |1.17|0.34.9+1.17+|2.0.0-beta.7+
 1.17-1.1.1 |1.17.1|0.34.9+1.17+|2.0.2
