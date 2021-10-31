@@ -13,6 +13,9 @@ public class IdentifiersCache {
     public IdentifiersCache() {
         add(DEFAULT, cache);
         add("overworld", cache);
+        add("minecraft:overworld", "overworld", cache);
+        add("minecraft:the_end", "end", cache);
+        add("minecraft:the_nether", "nether", cache);
         add("nether", cache);
         add("end", cache);
         add("ping", cache);
@@ -23,6 +26,10 @@ public class IdentifiersCache {
     public Identifier get(String resourceName) {
         String key = resourceName.toLowerCase();
         return cache.getOrDefault(key, cache.get(DEFAULT));
+    }
+    
+    private static void add(String identifierName, String resourceName, Map<String, Identifier> cache) {
+        cache.put(identifierName, createIdentifier(resourceName));
     }
     
     private static void add(String resourceName, Map<String, Identifier> cache) {
