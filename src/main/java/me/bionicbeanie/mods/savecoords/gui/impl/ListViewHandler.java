@@ -13,6 +13,7 @@ import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import me.bionicbeanie.mods.savecoords.IFileStore;
+import me.bionicbeanie.mods.savecoords.INetherCalculator;
 import me.bionicbeanie.mods.savecoords.TranslationKeys;
 import me.bionicbeanie.mods.savecoords.gui.IRootPanel;
 import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
@@ -29,14 +30,16 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     private Consumer<PlayerPosition> onDelete;
     private Consumer<PlayerPosition> onEdit;
     private Consumer<PlayerRawPosition> onPing;
+    private INetherCalculator netherCalculator;
 
     public ListViewHandler(IFileStore fileStore, Consumer<PlayerPosition> onDelete, Consumer<PlayerPosition> onEdit,
-            Consumer<PlayerRawPosition> onPing) {
+            Consumer<PlayerRawPosition> onPing, INetherCalculator netherCalculator) {
         this.fileStore = fileStore;
         this.backButton = createBackButton();
         this.onDelete = onDelete;
         this.onEdit = onEdit;
         this.onPing = onPing;
+        this.netherCalculator = netherCalculator;
     }
 
     @Override
@@ -60,7 +63,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     }
 
     private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPanel(List<PlayerPosition> positions) {
-        BiConsumer<PlayerPosition, CoordinatesListItemPanel> configurator = (pos, p) -> p.setPosition(pos, fileStore);
+        BiConsumer<PlayerPosition, CoordinatesListItemPanel> configurator = (pos, p) -> p.setPosition(pos);
         WListPanel<PlayerPosition, CoordinatesListItemPanel> panel = createListPanel(positions, configurator);
 
         panel.setListItemHeight(2 * 18);
@@ -74,7 +77,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     }
 
     private CoordinatesListItemPanel createListPanel() {
-        return new CoordinatesListItemPanel(onDelete, onEdit, onPing);
+        return new CoordinatesListItemPanel(onDelete, onEdit, onPing, netherCalculator);
     }
 
     private List<PlayerPosition> getPositions(IFileStore fileStore) {
@@ -101,27 +104,31 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         private WLabel location;
         private WSprite icon;
         private WButton deleteButton;
-        private WButton pingButton;
         private WButton detailButton;
+        private WButton pingButton;
+        private WButton convertButton;
         private WLabel world;
         private Consumer<PlayerRawPosition> onPing;
         private Consumer<PlayerPosition> onEdit;
         private Consumer<PlayerPosition> onDelete;
+        private INetherCalculator netherCalculator;
 
         CoordinatesListItemPanel(Consumer<PlayerPosition> onDelete, Consumer<PlayerPosition> onEdit,
-                Consumer<PlayerRawPosition> onPing) {
+                Consumer<PlayerRawPosition> onPing, INetherCalculator netherCalculator) {
 
             this.onDelete = onDelete;
             this.onEdit = onEdit;
             this.onPing = onPing;
+            this.netherCalculator = netherCalculator;
 
             this.coordinates = new WLabel("Foo");
             this.location = new WLabel("Foo");
             this.world = new WLabel("Foo");
             this.icon = new WSprite(new Identifier("minecraft:textures/item/ender_eye.png"));
             this.deleteButton = createDeleteButton();
-            this.pingButton = new WButton(new LiteralText(""));
             this.detailButton = new WButton(new LiteralText(""));
+            this.pingButton = new WButton(new LiteralText(""));
+            this.convertButton = new WButton(new LiteralText(""));
 
             this.pingButton.setIcon(ResourceUtils.createPingIcon());
             this.detailButton.setIcon(ResourceUtils.createDetailsIcon());
@@ -131,8 +138,9 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.add(location, 4 * 18, 0, 4 * 18, 1 * 18);
             this.add(coordinates, 3 * 18, 1 * 18, 9 * 18, 1 * 18);
             this.add(deleteButton, 13 * 18, 0, 1 * 18, 1 * 18);
-            this.add(pingButton, 11 * 18 - 2, 0, 1 * 18, 1 * 18);
             this.add(detailButton, 12 * 18 - 1, 0, 1 * 18, 1 * 18);
+            this.add(pingButton, 11 * 18 - 2, 0, 1 * 18, 1 * 18);
+            this.add(convertButton, 10 * 18 - 3, 0, 1 * 18, 1 * 18);
 
             this.icon.setSize(1 * 15, 1 * 15);
             this.world.setSize(3 * 18, 1 * 18);
@@ -152,20 +160,27 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             return button;
         }
 
-        void setPosition(PlayerPosition position, IFileStore fileStore) {
-            this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
+        void setPosition(PlayerPosition position) {
             this.location.setText(new LiteralText(position.getLocationName()));
             this.location.setColor(0x3939ac);
             if (position.getPositionMetadata() != null) {
                 this.world.setText(new LiteralText("[" + position.getPositionMetadata().getWorldName() + "]"));
                 this.world.setColor(0xb80000);
             }
-
-            this.coordinates
-                    .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
+            
+            setRawPosition(position);
+            
             this.deleteButton.setOnClick(() -> onDelete.accept(position));
             this.pingButton.setOnClick(() -> onPing.accept(position));
             this.detailButton.setOnClick(() -> onEdit.accept(position));
+            this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
+        }
+
+        private void setRawPosition(PlayerRawPosition position) {
+            this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
+            this.coordinates
+                    .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
+            this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
         }
     }
 }

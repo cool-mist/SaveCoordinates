@@ -7,6 +7,7 @@ import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IKeyBinds.IKeyBinding;
 import me.bionicbeanie.mods.savecoords.IModGui;
+import me.bionicbeanie.mods.savecoords.INetherCalculator;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.gui.IGuiController;
 import me.bionicbeanie.mods.savecoords.gui.IViewHandler;
@@ -24,14 +25,16 @@ public class SaveCoordinatesGui implements IModGui {
     private IPlayerLocator locator;
     private IDimensionAware dimensionAware;
     private IKeyBinds keyBinds;
+    private INetherCalculator netherCalculator;
 
     SaveCoordinatesGui(IFileStore fileStore, IPlayerLocator locator, IDimensionAware dimensionAware, IKeyBinds binds,
-            IGuiController screenController) {
+            IGuiController screenController, INetherCalculator netherCalculator) {
         this.screenController = screenController;
         this.fileStore = fileStore;
         this.keyBinds = binds;
         this.locator = locator;
         this.dimensionAware = dimensionAware;
+        this.netherCalculator = netherCalculator;
 
         this.defaultHandler = CreateDefaultViewHandler();
         this.listHandler = CreateListViewHandler();
@@ -57,7 +60,7 @@ public class SaveCoordinatesGui implements IModGui {
 
     private IViewHandler<Void> CreateListViewHandler() {
         ListViewHandler handler = new ListViewHandler(fileStore, this::onDeletePosition, this::onEditPosition,
-                this::pingPosition);
+                this::pingPosition, netherCalculator);
 
         handler.onBackButtonClick(() -> showDefaultView(null));
 

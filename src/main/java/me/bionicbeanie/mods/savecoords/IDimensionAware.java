@@ -11,9 +11,17 @@ public interface IDimensionAware {
     IDimension getCurrentDimension();
     
     IDimension getDimension(String dimensionKey);
+    
+    boolean isOverworld(IDimension dimension);
+    
+    boolean isNether(IDimension dimension);
+    
+    boolean isEnd(IDimension dimension);
 
     public interface IDimension {
 
+        public int getId();
+        
         public String getName();
 
         public Identifier getSpriteIdentifier();
