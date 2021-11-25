@@ -6,6 +6,7 @@ import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
 import me.bionicbeanie.mods.savecoords.IModGui;
+import me.bionicbeanie.mods.savecoords.INetherCalculator;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import me.bionicbeanie.mods.savecoords.impl.Factory;
 import net.minecraft.client.MinecraftClient;
@@ -23,6 +24,7 @@ public class DIContainer {
     private static ConfigScreenFactory<Screen> modMenuScreenFactory;
     private static CurrentPositionPingOperation pingPositionOperation;
     private static IDimensionAware dimensionAware;
+    private static INetherCalculator netherCalculator;
 
     public static IModGui getModGui() {
         initialize();
@@ -53,18 +55,18 @@ public class DIContainer {
         }
         return modMenuScreenFactory;
     }
-    
+
     public static Runnable getPingPositionOperation() {
         initialize();
         return () -> {
             try {
                 pingPositionOperation.call();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         };
     }
-    
+
     public static boolean togglePingBehavior() {
         return pingPositionOperation.toggleEnabled();
     }
@@ -79,8 +81,10 @@ public class DIContainer {
             playerLocator = Factory.CreatePlayerLocator(minecraftClient);
             keyBinds = Factory.CreateKeyBinds(fileStore);
             dimensionAware = Factory.CreateDimensionAware(minecraftClient);
-            modGui = new SaveCoordinatesGui(fileStore, playerLocator, dimensionAware, keyBinds, guiController);
-            
+            netherCalculator = Factory.CreateNetherCalculator(dimensionAware);
+            modGui = new SaveCoordinatesGui(fileStore, playerLocator, dimensionAware, keyBinds, guiController,
+                    netherCalculator);
+
             pingPositionOperation = new CurrentPositionPingOperation(fileStore, () -> playerLocator.locate());
         }
     }

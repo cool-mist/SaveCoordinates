@@ -3,6 +3,7 @@ package me.bionicbeanie.mods.savecoords.impl;
 import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IFileStore;
 import me.bionicbeanie.mods.savecoords.IKeyBinds;
+import me.bionicbeanie.mods.savecoords.INetherCalculator;
 import me.bionicbeanie.mods.savecoords.IPlayerLocator;
 import net.minecraft.client.MinecraftClient;
 
@@ -22,5 +23,9 @@ public class Factory {
     
     public static IDimensionAware CreateDimensionAware(MinecraftClient client) {
         return new DimensionAware(client);
+    }
+    
+    public static INetherCalculator CreateNetherCalculator(IDimensionAware dimensionAware) {
+        return new NetherCalculator(dimensionAware);
     }
 }

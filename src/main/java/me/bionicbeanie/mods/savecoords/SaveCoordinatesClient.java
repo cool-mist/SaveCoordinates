@@ -5,6 +5,8 @@ import me.bionicbeanie.mods.savecoords.gui.impl.DIContainer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.Font;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.TranslatableText;
 
 public class SaveCoordinatesClient implements ClientModInitializer {
@@ -24,6 +26,7 @@ public class SaveCoordinatesClient implements ClientModInitializer {
             
             while(pingLockBinding.wasPressed()) {
                 boolean enabled = DIContainer.togglePingBehavior();
+                // TODO : Abstract to a tooltip queue
                 String translationKey = TranslationKeys.TOOLTIP_PING_DISABLED;
                 if(enabled) {
                     translationKey = TranslationKeys.TOOLTIP_PING_ENABLED;
