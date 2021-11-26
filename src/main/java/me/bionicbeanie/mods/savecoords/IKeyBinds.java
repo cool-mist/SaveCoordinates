@@ -9,6 +9,7 @@ public interface IKeyBinds {
     public static String DEFAULT = "default";
     public static String PING = "ping";
     public static String PING_LOCK = "ping_lock";
+    public static String LIST = "list";
     
     public List<IKeyBinding> getAllBinds();
     public IKeyBinding getKeyBind(String name);

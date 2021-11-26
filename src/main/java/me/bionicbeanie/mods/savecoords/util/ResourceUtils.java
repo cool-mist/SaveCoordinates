@@ -11,7 +11,7 @@ public class ResourceUtils {
     public static Identifier getIdentifier(String resourceName) {
         return cache.get(resourceName);
     }
-
+    
     public static Icon createPingIcon() {
         return new TextureIcon(cache.get("ping"));
     }
@@ -22,5 +22,13 @@ public class ResourceUtils {
 
     public static Icon createDetailsIcon() {
         return new TextureIcon(cache.get("more"));
+    }
+    
+    public static Icon createConvertIcon(boolean active) {
+        String resource = "convert";
+        if(active) {
+            resource = "convert_active";
+        }
+        return new TextureIcon(cache.get(resource));
     }
 }

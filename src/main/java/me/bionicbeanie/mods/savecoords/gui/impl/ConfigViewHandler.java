@@ -217,9 +217,9 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
         private int code;
 
         ConfigItemPanel() {
-            this.configLabel = new WLabel("Foo");
+            this.configLabel = new WLabel("");
             this.configButton = new WButton();
-            this.resetButton = new WButton(new LiteralText("RESET"));
+            this.resetButton = new WButton(new TranslatableText(TranslationKeys.MENU_RESET));
         }
 
         void setInitialConfig(IKeyBinding config) {
@@ -234,7 +234,7 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
             this.resetButton.setOnClick(this::reset);
 
             this.add(configLabel, 0, 0, 4 * 18, 1 * 9);
-            this.add(configButton, 5 * 18, 0, 4 * 18, 1 * 18);
+            this.add(configButton, 7 * 18, 0, 3 * 18, 1 * 18);
             this.add(resetButton, 11 * 18, 0, 3 * 18, 1 * 18);
         }
         

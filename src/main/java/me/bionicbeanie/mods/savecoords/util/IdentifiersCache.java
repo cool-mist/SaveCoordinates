@@ -21,6 +21,8 @@ public class IdentifiersCache {
         add("ping", cache);
         add("close", cache);
         add("more", cache);
+        add("convert", cache);
+        add("convert_active", cache);
     }
     
     public Identifier get(String resourceName) {

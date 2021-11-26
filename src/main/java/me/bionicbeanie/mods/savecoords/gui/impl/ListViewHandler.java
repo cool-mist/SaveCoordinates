@@ -21,7 +21,6 @@ import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 import me.bionicbeanie.mods.savecoords.util.ResourceUtils;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
 
 class ListViewHandler extends ViewHandlerBase<Void> {
 
@@ -112,6 +111,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         private Consumer<PlayerPosition> onEdit;
         private Consumer<PlayerPosition> onDelete;
         private INetherCalculator netherCalculator;
+        private boolean coordinateConvertState;
 
         CoordinatesListItemPanel(Consumer<PlayerPosition> onDelete, Consumer<PlayerPosition> onEdit,
                 Consumer<PlayerRawPosition> onPing, INetherCalculator netherCalculator) {
@@ -120,11 +120,12 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.onEdit = onEdit;
             this.onPing = onPing;
             this.netherCalculator = netherCalculator;
+            this.coordinateConvertState = true;
 
-            this.coordinates = new WLabel("Foo");
-            this.location = new WLabel("Foo");
-            this.world = new WLabel("Foo");
-            this.icon = new WSprite(new Identifier("minecraft:textures/item/ender_eye.png"));
+            this.coordinates = new WLabel("");
+            this.location = new WLabel("");
+            this.world = new WLabel("");
+            this.icon = new WSprite(ResourceUtils.getIdentifier("close"));
             this.deleteButton = createDeleteButton();
             this.detailButton = new WButton(new LiteralText(""));
             this.pingButton = new WButton(new LiteralText(""));
@@ -132,6 +133,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
 
             this.pingButton.setIcon(ResourceUtils.createPingIcon());
             this.detailButton.setIcon(ResourceUtils.createDetailsIcon());
+            this.convertButton.setIcon(ResourceUtils.createConvertIcon(this.coordinateConvertState));
 
             this.add(icon, 0, 0, 1 * 9, 1 * 9);
             this.add(world, 1 * 18, 0, 3 * 18, 1 * 18);
@@ -139,8 +141,8 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.add(coordinates, 3 * 18, 1 * 18, 9 * 18, 1 * 18);
             this.add(deleteButton, 13 * 18, 0, 1 * 18, 1 * 18);
             this.add(detailButton, 12 * 18 - 1, 0, 1 * 18, 1 * 18);
-            this.add(pingButton, 11 * 18 - 2, 0, 1 * 18, 1 * 18);
-            this.add(convertButton, 10 * 18 - 3, 0, 1 * 18, 1 * 18);
+            this.add(convertButton, 11 * 18 - 2, 0, 1 * 18, 1 * 18);
+            this.add(pingButton, 10 * 18 - 3, 0, 1 * 18, 1 * 18);
 
             this.icon.setSize(1 * 15, 1 * 15);
             this.world.setSize(3 * 18, 1 * 18);
@@ -149,6 +151,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.deleteButton.setSize(1 * 18, 1 * 18);
             this.pingButton.setSize(1 * 18, 1 * 18);
             this.detailButton.setSize(1 * 18, 1 * 18);
+            this.convertButton.setSize(1 * 18, 1 * 18);
 
             this.setSize(15 * 18, 2 * 18);
         }
@@ -177,10 +180,13 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         }
 
         private void setRawPosition(PlayerRawPosition position) {
+            
             this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
             this.coordinates
                     .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
+            this.coordinateConvertState = !coordinateConvertState;
+            this.convertButton.setIcon(ResourceUtils.createConvertIcon(coordinateConvertState));
         }
     }
 }
