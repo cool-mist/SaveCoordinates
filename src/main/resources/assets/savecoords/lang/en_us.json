@@ -1,7 +1,8 @@
 {
-    "key.savecoords.default": "Open GUI",
-    "key.savecoords.ping": "Beam Location",
-    "key.savecoords.ping_lock": "Lock Beaming",
+    "key.savecoords.default": "Save a coordinate",
+    "key.savecoords.list": "List coordinates",
+    "key.savecoords.ping": "Broadcast position",
+    "key.savecoords.ping_lock": "Lock broadcast",
     "category.savecoords.default": "Generic",
     "menu.savecoords.save": "SAVE",
     "menu.savecoords.reset": "RESET",
@@ -12,7 +13,7 @@
     "menu.savecoords.location": "location name",
     "menu.savecoords.notes": "additional notes",
     "menu.savecoords.world_name": "world name",
-    "tooltip.savecoords.ping_lock": "You must first enable beaming current location",
-    "tooltip.savecoords.ping_enabled": "Beaming current location is now enabled",
-    "tooltip.savecoords.ping_disabled": "Beaming current location is now disabled"
+    "tooltip.savecoords.ping_lock": "You must first enable broadcasting current location",
+    "tooltip.savecoords.ping_enabled": "Broadcasting current location is now enabled",
+    "tooltip.savecoords.ping_disabled": "Broadcasting current location is now disabled"
 }

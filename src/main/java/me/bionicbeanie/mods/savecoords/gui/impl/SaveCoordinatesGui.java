@@ -45,6 +45,11 @@ public class SaveCoordinatesGui implements IModGui {
     public void open() {
         showDefaultView(null);
     }
+    
+    @Override
+    public void openList() {
+        showListView();
+    }
 
     private IViewHandler<PlayerPosition> CreateDefaultViewHandler() {
         DefaultViewHandler handler = new DefaultViewHandler(fileStore, locator, dimensionAware);

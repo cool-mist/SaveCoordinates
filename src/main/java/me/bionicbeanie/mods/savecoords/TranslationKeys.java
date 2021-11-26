@@ -4,6 +4,7 @@ public interface TranslationKeys {
     public static String KEYBIND_DEFAULT = "key.savecoords.default";
     public static String KEYBIND_PING = "key.savecoords.ping";
     public static String KEYBIND_PING_LOCK = "key.savecoords.ping_lock";
+    public static String KEYBIND_LIST = "key.savecoords.list";
     public static String CATEGORY_GENERIC = "category.savecoords.default";
     public static String MENU_SAVE = "menu.savecoords.save";
     public static String MENU_BACK = "menu.savecoords.back";

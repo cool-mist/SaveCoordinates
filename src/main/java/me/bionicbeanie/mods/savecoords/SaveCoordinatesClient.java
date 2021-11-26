@@ -5,8 +5,6 @@ import me.bionicbeanie.mods.savecoords.gui.impl.DIContainer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.Font;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.TranslatableText;
 
 public class SaveCoordinatesClient implements ClientModInitializer {
@@ -14,6 +12,7 @@ public class SaveCoordinatesClient implements ClientModInitializer {
     private static IKeyBinding defaultKeyBinding = getKeyBinding(IKeyBinds.DEFAULT);
     private static IKeyBinding pingKeyBinding = getKeyBinding(IKeyBinds.PING);
     private static IKeyBinding pingLockBinding = getKeyBinding(IKeyBinds.PING_LOCK);
+    private static IKeyBinding listKeyBinding = getKeyBinding(IKeyBinds.LIST);
 
     @SuppressWarnings("resource")
     @Override
@@ -22,6 +21,10 @@ public class SaveCoordinatesClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while(defaultKeyBinding.wasPressed()) {
                 DIContainer.getModGui().open();
+            }
+            
+            while(listKeyBinding.wasPressed()) {
+                DIContainer.getModGui().openList();
             }
             
             while(pingLockBinding.wasPressed()) {

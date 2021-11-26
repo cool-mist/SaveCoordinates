@@ -30,6 +30,9 @@ class KeyBinds implements IKeyBinds {
 
     KeyBindingEx PING_LOCK = new KeyBindingEx(IKeyBinds.PING_LOCK, TranslationKeys.KEYBIND_PING_LOCK,
             InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_N, TranslationKeys.CATEGORY_GENERIC);
+    
+    KeyBindingEx LIST = new KeyBindingEx(IKeyBinds.LIST, TranslationKeys.KEYBIND_LIST,
+            InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, TranslationKeys.CATEGORY_GENERIC);
 
     private IFileStore fileStore;
     private Map<String, KeyBindingEx> keyBinds;
@@ -40,6 +43,7 @@ class KeyBinds implements IKeyBinds {
         this.keyBinds = new HashMap<>();
 
         add(DEFAULT);
+        add(LIST);
         add(PING);
         add(PING_LOCK);
 
