@@ -17,10 +17,10 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "me.bionicbeanie.mods.savecoords.SaveCoordinatesClient"
+            "me.neophyte.mods.savecoords.SaveCoordinatesClient"
         ],
         "modmenu": [
-            "me.bionicbeanie.mods.savecoords.modmenu.SaveCoordinatesModMenu"
+            "me.neophyte.mods.savecoords.modmenu.SaveCoordinatesModMenu"
         ]
     },
     "mixins": [],
