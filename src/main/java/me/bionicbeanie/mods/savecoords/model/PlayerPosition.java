@@ -27,7 +27,7 @@ public class PlayerPosition extends PlayerRawPosition {
 
     @Override
     public String toString() {
-        return this.locationName + " in [ " + this.getWorldDimension() + " ] at [ " + this.getX() + ", " + this.getY()
-                + ", " + this.getZ() + " ]";
+        return this.locationName + " in " + this.getWorldDimension() + " >>> " + this.getX() + ", " + this.getY()
+                + ", " + this.getZ();
     }
 }

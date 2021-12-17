@@ -1,7 +1,7 @@
 package me.bionicbeanie.mods.savecoords;
 
-import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
+import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 
 public interface INetherCalculator {
-    PlayerRawPosition convert(PlayerRawPosition position);
+    PlayerPosition convert(PlayerPosition position);
 }

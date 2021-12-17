@@ -179,12 +179,13 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
         }
 
-        private void setRawPosition(PlayerRawPosition position) {
+        private void setRawPosition(PlayerPosition position) {
             
             this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
             this.coordinates
                     .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
+            this.pingButton.setOnClick(() -> onPing.accept(position));
             this.coordinateConvertState = !coordinateConvertState;
             this.convertButton.setIcon(ResourceUtils.createConvertIcon(coordinateConvertState));
         }
