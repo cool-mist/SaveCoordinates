@@ -13,8 +13,8 @@ public class Factory {
         return new FileStore(baseDirectory);
     }
     
-    public static IPlayerLocator CreatePlayerLocator(MinecraftClient client) {
-        return new PlayerLocator(client);
+    public static IPlayerLocator CreatePlayerLocator(MinecraftClient client, IDimensionAware dimensionAware) {
+        return new PlayerLocator(client, dimensionAware);
     }
     
     public static IKeyBinds CreateKeyBinds(IFileStore fileStore) {

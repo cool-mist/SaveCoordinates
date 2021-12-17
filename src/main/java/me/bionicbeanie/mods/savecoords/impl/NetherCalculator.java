@@ -3,6 +3,7 @@ package me.bionicbeanie.mods.savecoords.impl;
 import me.bionicbeanie.mods.savecoords.IDimensionAware;
 import me.bionicbeanie.mods.savecoords.IDimensionAware.IDimension;
 import me.bionicbeanie.mods.savecoords.INetherCalculator;
+import me.bionicbeanie.mods.savecoords.model.PlayerPosition;
 import me.bionicbeanie.mods.savecoords.model.PlayerRawPosition;
 
 class NetherCalculator implements INetherCalculator {
@@ -28,19 +29,24 @@ class NetherCalculator implements INetherCalculator {
     }
 
     @Override
-    public PlayerRawPosition convert(PlayerRawPosition position) {
+    public PlayerPosition convert(PlayerPosition position) {
         IDimension dimension = dimensionAware.getDimension(position.getWorldDimension());
-
+        PlayerRawPosition rawPosition = null;
+        
         if (dimensionAware.isOverworld(dimension)) {
-            return new PlayerRawPosition(position.getX() / MULTIPLIER, position.getY(), position.getZ() / MULTIPLIER,
+            rawPosition =  new PlayerRawPosition(position.getX() / MULTIPLIER, position.getY(), position.getZ() / MULTIPLIER,
                     nether.getName());
         }
 
         if (dimensionAware.isNether(dimension)) {
-            return new PlayerRawPosition(position.getX() * MULTIPLIER, position.getY(), position.getZ() * MULTIPLIER,
+            rawPosition = new PlayerRawPosition(position.getX() * MULTIPLIER, position.getY(), position.getZ() * MULTIPLIER,
                     overworld.getName());
         }
 
+        if(rawPosition != null) {
+        	return new PlayerPosition(position.getId(), rawPosition, position.getLocationName(), position.getPositionMetadata());
+        }
+        
         return position;
     }
 

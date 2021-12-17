@@ -78,9 +78,9 @@ public class DIContainer {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             fileStore = Factory.createFileStore(minecraftClient.runDirectory.getAbsolutePath());
             guiController = new GuiController(minecraftClient);
-            playerLocator = Factory.CreatePlayerLocator(minecraftClient);
-            keyBinds = Factory.CreateKeyBinds(fileStore);
             dimensionAware = Factory.CreateDimensionAware(minecraftClient);
+            playerLocator = Factory.CreatePlayerLocator(minecraftClient, dimensionAware);
+            keyBinds = Factory.CreateKeyBinds(fileStore);
             netherCalculator = Factory.CreateNetherCalculator(dimensionAware);
             modGui = new SaveCoordinatesGui(fileStore, playerLocator, dimensionAware, keyBinds, guiController,
                     netherCalculator);
