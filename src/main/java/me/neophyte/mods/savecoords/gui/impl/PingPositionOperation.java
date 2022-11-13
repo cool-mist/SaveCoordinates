@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import me.neophyte.mods.savecoords.IFileStore;
 import me.neophyte.mods.savecoords.model.PlayerRawPosition;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 
 class PingPositionOperation extends ViewOperationBase<PlayerRawPosition> {
 
@@ -15,6 +16,6 @@ class PingPositionOperation extends ViewOperationBase<PlayerRawPosition> {
     @SuppressWarnings("resource")
     @Override
     protected void executeOperation(IFileStore fileStore, PlayerRawPosition position) throws Exception {
-        MinecraftClient.getInstance().player.sendChatMessage(position.toString());
+        MinecraftClient.getInstance().player.sendChatMessage(position.toString(), Text.of(position.toString()));
     }
 }

@@ -6,7 +6,7 @@ import me.neophyte.mods.savecoords.IFileStore;
 import me.neophyte.mods.savecoords.TranslationKeys;
 import me.neophyte.mods.savecoords.model.PlayerRawPosition;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 public class CurrentPositionPingOperation extends PingPositionOperation{
 
@@ -28,7 +28,7 @@ public class CurrentPositionPingOperation extends PingPositionOperation{
         if (enabled) {
             super.executeOperation(fileStore, position);
         } else {
-            MinecraftClient.getInstance().player.sendMessage(new TranslatableText(TranslationKeys.TOOLTIP_PING_LOCK),
+            MinecraftClient.getInstance().player.sendMessage(Text.translatable(TranslationKeys.TOOLTIP_PING_LOCK),
                     true);
         }
     }

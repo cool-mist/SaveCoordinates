@@ -18,7 +18,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.InputUtil.Type;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 class KeyBinds implements IKeyBinds {
 
@@ -120,7 +119,7 @@ class KeyBinds implements IKeyBinds {
 
         @Override
         public Text getNameLocalizedText() {
-            return new TranslatableText(getTranslationKey());
+            return Text.translatable(getTranslationKey());
         }
 
         @Override

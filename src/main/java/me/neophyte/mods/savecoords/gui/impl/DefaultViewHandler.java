@@ -16,8 +16,7 @@ import me.neophyte.mods.savecoords.model.PlayerPosition;
 import me.neophyte.mods.savecoords.model.PlayerRawPosition;
 import me.neophyte.mods.savecoords.model.PositionMetadata;
 import me.neophyte.mods.savecoords.util.ResourceUtils;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
 
@@ -173,7 +172,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WWidget CreateLabelForCoordinate(String label) {
-        WButton labelButton = new WButton(new LiteralText(label));
+        WButton labelButton = new WButton(Text.of(label));
         labelButton.setEnabled(false);
         return labelButton;
     }
@@ -187,7 +186,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateLocationField(PlayerPosition existingPosition) {
-        WTextField location = new WTextField(new TranslatableText(TranslationKeys.MENU_LOCATION));
+        WTextField location = new WTextField(Text.translatable(TranslationKeys.MENU_LOCATION));
 
         if (existingPosition != null) {
             location.setText(existingPosition.getLocationName());
@@ -199,7 +198,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateNotesField(PlayerPosition existingPosition) {
-        WTextField notes = new WTextField(new TranslatableText(TranslationKeys.MENU_NOTES));
+        WTextField notes = new WTextField(Text.translatable(TranslationKeys.MENU_NOTES));
 
         if (existingPosition != null && existingPosition.getPositionMetadata() != null) {
             notes.setText(existingPosition.getPositionMetadata().getNotes());
@@ -209,7 +208,7 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WTextField CreateWorldField(String defaultWorld) {
-        WTextField world = new WTextField(new TranslatableText(TranslationKeys.MENU_WORLD_NAME));
+        WTextField world = new WTextField(Text.translatable(TranslationKeys.MENU_WORLD_NAME));
         world.setMaxLength(7);
         world.setText(defaultWorld);
         return world;
@@ -222,6 +221,6 @@ class DefaultViewHandler extends ViewHandlerBase<PlayerPosition> {
     }
 
     private WButton CreateButton(String translationKey) {
-        return new WButton(new TranslatableText(translationKey));
+        return new WButton(Text.translatable(translationKey));
     }
 }

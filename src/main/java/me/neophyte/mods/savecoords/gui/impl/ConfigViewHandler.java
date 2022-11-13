@@ -15,9 +15,7 @@ import me.neophyte.mods.savecoords.IKeyBinds.IKeyBinding;
 import me.neophyte.mods.savecoords.gui.IRootPanel;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil.Type;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 // TODO:
 //      Clean the mess below on order of event handling
@@ -33,9 +31,9 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
     private ConfigListPanel listPanel;
     
     public ConfigViewHandler() {
-        this.saveButton = new WButton(new TranslatableText(TranslationKeys.MENU_SAVE));
-        this.backButton = new WButton(new TranslatableText(TranslationKeys.MENU_BACK));
-        this.resetButton = new WButton(new TranslatableText(TranslationKeys.MENU_RESET));
+        this.saveButton = new WButton(Text.translatable(TranslationKeys.MENU_SAVE));
+        this.backButton = new WButton(Text.translatable(TranslationKeys.MENU_BACK));
+        this.resetButton = new WButton(Text.translatable(TranslationKeys.MENU_RESET));
     }
 
     @Override
@@ -217,9 +215,9 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
         private int code;
 
         ConfigItemPanel() {
-            this.configLabel = new WLabel("");
+            this.configLabel = new WLabel(Text.of(""));
             this.configButton = new WButton();
-            this.resetButton = new WButton(new TranslatableText(TranslationKeys.MENU_RESET));
+            this.resetButton = new WButton(Text.translatable(TranslationKeys.MENU_RESET));
         }
 
         void setInitialConfig(IKeyBinding config) {
@@ -277,7 +275,7 @@ class ConfigViewHandler extends ViewHandlerBase<List<IKeyBinding>> {
 
         private void updateWidgetData(Type type, int code) {
             if(focussing) {
-                this.configButton.setLabel(new LiteralText("_"));
+                this.configButton.setLabel(Text.of("_"));
                 return;
             }
             

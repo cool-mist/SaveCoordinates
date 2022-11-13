@@ -5,7 +5,7 @@ import me.neophyte.mods.savecoords.gui.impl.DIContainer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 public class SaveCoordinatesClient implements ClientModInitializer {
 
@@ -35,7 +35,7 @@ public class SaveCoordinatesClient implements ClientModInitializer {
                     translationKey = TranslationKeys.TOOLTIP_PING_ENABLED;
                 }
                 
-                MinecraftClient.getInstance().player.sendMessage(new TranslatableText(translationKey), true);
+                MinecraftClient.getInstance().player.sendMessage(Text.translatable(translationKey), true);
             }
             
             while(pingKeyBinding.wasPressed()) {

@@ -6,7 +6,7 @@ import me.neophyte.mods.savecoords.IDimensionAware;
 import me.neophyte.mods.savecoords.IDimensionAware.IDimension;
 import me.neophyte.mods.savecoords.model.PlayerRawPosition;
 import me.neophyte.mods.savecoords.util.PartialCircularList;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class DimensionButton extends WButton {
 
@@ -27,13 +27,13 @@ public class DimensionButton extends WButton {
         IDimension currentDimension = allDimensions.current();
         
         sprite.setImage(currentDimension.getSpriteIdentifier());
-        setLabel(new LiteralText(currentDimension.getName()));
+        setLabel(Text.of(currentDimension.getName()));
 
         setOnClick(() -> {
             allDimensions.next();
             IDimension current = getDimension();
             sprite.setImage(current.getSpriteIdentifier());
-            setLabel(new LiteralText(current.getName()));
+            setLabel(Text.of(current.getName()));
         });
     }
 

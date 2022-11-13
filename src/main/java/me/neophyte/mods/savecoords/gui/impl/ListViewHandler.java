@@ -19,8 +19,7 @@ import me.neophyte.mods.savecoords.gui.IRootPanel;
 import me.neophyte.mods.savecoords.model.PlayerPosition;
 import me.neophyte.mods.savecoords.model.PlayerRawPosition;
 import me.neophyte.mods.savecoords.util.ResourceUtils;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 class ListViewHandler extends ViewHandlerBase<Void> {
 
@@ -58,7 +57,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
     }
 
     private WButton createBackButton() {
-        return new WButton(new TranslatableText(TranslationKeys.MENU_BACK));
+        return new WButton(Text.translatable(TranslationKeys.MENU_BACK));
     }
 
     private WListPanel<PlayerPosition, CoordinatesListItemPanel> createListPanel(List<PlayerPosition> positions) {
@@ -122,14 +121,14 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             this.netherCalculator = netherCalculator;
             this.coordinateConvertState = true;
 
-            this.coordinates = new WLabel("");
-            this.location = new WLabel("");
-            this.world = new WLabel("");
+            this.coordinates = new WLabel(Text.of(""));
+            this.location = new WLabel(Text.of(""));
+            this.world = new WLabel(Text.of(""));
             this.icon = new WSprite(ResourceUtils.getIdentifier("close"));
             this.deleteButton = createDeleteButton();
-            this.detailButton = new WButton(new LiteralText(""));
-            this.pingButton = new WButton(new LiteralText(""));
-            this.convertButton = new WButton(new LiteralText(""));
+            this.detailButton = new WButton(Text.of(""));
+            this.pingButton = new WButton(Text.of(""));
+            this.convertButton = new WButton(Text.of(""));
 
             this.pingButton.setIcon(ResourceUtils.createPingIcon());
             this.detailButton.setIcon(ResourceUtils.createDetailsIcon());
@@ -157,17 +156,17 @@ class ListViewHandler extends ViewHandlerBase<Void> {
         }
 
         private WButton createDeleteButton() {
-            TexturedButton button = new TexturedButton(new LiteralText("x"));
+            TexturedButton button = new TexturedButton(Text.of("x"));
             button.setTexture(ResourceUtils.getIdentifier("close"));
 
             return button;
         }
 
         void setPosition(PlayerPosition position) {
-            this.location.setText(new LiteralText(position.getLocationName()));
+            this.location.setText(Text.of(position.getLocationName()));
             this.location.setColor(0x3939ac);
             if (position.getPositionMetadata() != null) {
-                this.world.setText(new LiteralText("[" + position.getPositionMetadata().getWorldName() + "]"));
+                this.world.setText(Text.of("[" + position.getPositionMetadata().getWorldName() + "]"));
                 this.world.setColor(0xb80000);
             }
             
@@ -183,7 +182,7 @@ class ListViewHandler extends ViewHandlerBase<Void> {
             
             this.icon.setImage(ResourceUtils.getIdentifier(position.getWorldDimension()));
             this.coordinates
-                    .setText(new LiteralText(position.getX() + ", " + position.getY() + ", " + position.getZ()));
+                    .setText(Text.of(position.getX() + ", " + position.getY() + ", " + position.getZ()));
             this.convertButton.setOnClick(() -> setRawPosition(netherCalculator.convert(position)));
             this.pingButton.setOnClick(() -> onPing.accept(position));
             this.coordinateConvertState = !coordinateConvertState;
