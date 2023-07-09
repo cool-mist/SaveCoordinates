@@ -16,6 +16,6 @@ class PingPositionOperation extends ViewOperationBase<PlayerRawPosition> {
     @SuppressWarnings("resource")
     @Override
     protected void executeOperation(IFileStore fileStore, PlayerRawPosition position) throws Exception {
-        MinecraftClient.getInstance().player.sendChatMessage(position.toString(), Text.of(position.toString()));
+        MinecraftClient.getInstance().player.sendMessage(Text.of(position.toString()));
     }
 }

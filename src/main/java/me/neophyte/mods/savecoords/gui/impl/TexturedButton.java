@@ -3,6 +3,7 @@ package me.neophyte.mods.savecoords.gui.impl;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -20,7 +21,7 @@ public class TexturedButton extends WButton {
     }
 
     @Override
-    public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+    public void paint(DrawContext matrices, int x, int y, int mouseX, int mouseY) {
         super.paint(matrices, x, y, mouseX, mouseY);
 
         if (texture != null) {
