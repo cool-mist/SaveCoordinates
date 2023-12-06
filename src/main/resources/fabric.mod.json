@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "savecoords",
     "version": "${version}",
-    "name": "Save Coordinates",
+    "name": "Save Coordinates 1.20.3",
     "description": "SaveCoordinates is a client side coordinate manager mod. This helps to avoid context switching when looking for or sharing in-game coordinates",
     "authors": [
         "cool-mist"
@@ -27,7 +27,7 @@
     "depends": {
         "fabricloader": ">=0.14.9",
         "fabric": "*",
-        "minecraft": "1.20.x",
+        "minecraft": ">=1.20.1",
         "java": ">=17"
     },
     "suggests": {
