@@ -2,7 +2,7 @@
 
 # Save Coordinates Fabric Mod
 
-<img src = "https://img.shields.io/github/v/release/cool-mist/SaveCoordinates?style=flat-square" />
+<img src = "https://img.shields.io/github/v/release/Vieur/SaveCoordinates?style=flat-square" />
 <a href = "https://www.curseforge.com/minecraft/mc-mods/savecoordinates/files"><img src = "http://cf.way2muchnoise.eu/versions/savecoordinates.svg"/> </a>
 
 ## Dependencies
