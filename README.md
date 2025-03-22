@@ -9,7 +9,8 @@
 
 This mod|Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files)|[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) (optional)
 --|--|--|--
-**1.20.1-1.4.1**|**1.20.1+**|**0.85.0+1.20.1**|**7.1.0**
+**1.21.4-1.5.0**|**1.21.5+**|*0.119.2+1.21.4**|**13.0.3**
+1.20.1-1.4.1|1.20.1+|0.85.0+1.20.1|7.1.0
 1.19.2-1.3.1|1.19.2+|0.60.0+1.19.2|4.1.0
 1.18.1-1.3.0|1.18.x|0.44.0+1.18|3.0.0
 1.17.1-1.2.1|1.17.1|0.41.0+1.17|2.0.14
@@ -50,7 +51,3 @@ This mod|Minecraft|[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fab
 - This is reachable through mod menu as well when available.
 
 <hr/>
-
-## Discord
-
-https://discord.gg/9xnv2gQbJt

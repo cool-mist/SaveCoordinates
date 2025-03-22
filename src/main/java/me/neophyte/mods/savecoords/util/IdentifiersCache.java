@@ -39,6 +39,6 @@ public class IdentifiersCache {
     }
     
     private static Identifier createIdentifier(String file) {
-        return new Identifier("savecoords", "textures/gui/" + file + ".png");
+        return Identifier.of("savecoords", "textures/gui/" + file + ".png");
     }
 }
